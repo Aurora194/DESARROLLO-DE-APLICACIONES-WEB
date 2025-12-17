@@ -1,0 +1,38 @@
+/* Personalización de Bootstrap */
+.btn-primary {
+background-color: #ff5733;
+border: none;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.btn-primary:hover {
+transform: scale(1.05);
+box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+
+.card {
+border-radius: 15px;
+transition: transform 0.3s ease;
+}
+.card:hover {
+transform: translateY(-10px);
+}
+
+
+footer a {
+margin: 0 5px;
+text-decoration: none;
+}
+
+
+/* Media Query personalizada */
+@media (max-width: 576px) {
+body {
+background-color: #f8f9fa;
+}
+h1 {
+color: #ff5733;
+}
+}
