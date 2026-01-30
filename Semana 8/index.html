@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Interactiva Bootstrap + JS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Mi Web</a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- SECCIÓN PRINCIPAL -->
+<div class="container mt-4">
+
+    <!-- CARRUSEL -->
+    <div id="inicio" class="carousel slide mb-4">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://picsum.photos/900/300?1" class="d-block w-100 carousel-img" alt="Imagen 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://picsum.photos/900/300?2" class="d-block w-100 carousel-img" alt="Imagen 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://picsum.photos/900/300?3" class="d-block w-100 carousel-img" alt="Imagen 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- TABLA -->
+    <h3 id="productos">Productos</h3>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Laptop</td>
+                <td>$800</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Mouse</td>
+                <td>$20</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>Teclado</td>
+                <td>$35</td>
+                <td>30</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- BOTÓN ALERTA -->
+    <button class="btn btn-warning mb-4" onclick="mostrarAlerta()">
+        Mostrar Alerta
+    </button>
+
+    <!-- FORMULARIO -->
+    <h3 id="contacto">Formulario de Contacto</h3>
+    <form id="formContacto" novalidate>
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control">
+            <small class="text-danger" id="errorNombre"></small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" id="correo" class="form-control">
+            <small class="text-danger" id="errorCorreo"></small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mensaje</label>
+            <textarea id="mensaje" class="form-control"></textarea>
+            <small class="text-danger" id="errorMensaje"></small>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+
+</div>
+
+<!-- PIE DE PÁGINA -->
+<footer class="bg-dark text-white text-center p-3 mt-4">
+   <p>&copy; 2026 Mi Web</p>
+   <a href="https://www.facebook.com/">Facebook</a> | <a href="https://x.com/">X</a> | <a href="https://www.instagram.com/">Instagram</a>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
