@@ -7,12 +7,12 @@ app = Flask(__name__)
 def inicio():
     return "Bienvenido al Sistema de Reservas – Restaurante Leña Steak House"
 
-# Ruta dinámica
+# Ruta reservas
 @app.route('/reserva/<cliente>')
 def reserva(cliente):
     return f"Hola {cliente}, tu reserva está en proceso."
 
-# Otra ruta opcional
+# ruta mesas para los clientes
 @app.route('/mesa/<int:numero>')
 def mesa(numero):
     return f"Mesa {numero} disponible para reservar."
