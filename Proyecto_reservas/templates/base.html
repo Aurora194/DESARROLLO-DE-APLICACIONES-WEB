@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema de Reservas{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Sistema de Reservas – Restaurante Leña Steak House</h1>
+</header>
+
+<nav>
+    <a href="/">Inicio</a>
+    <a href="/about">Acerca de</a>
+    <a href="/reservas">Reservas</a>
+</nav>
+
+<hr>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<hr>
+
+<footer>
+    <p>© 2026 Sistema de Reservas | Desarrollado con Flask</p>
+</footer>
+
+</body>
+</html>

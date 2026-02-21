@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Reservas{% endblock %}
+
+{% block content %}
+<h2>Gestión de Reservas</h2>
+
+{% if cliente %}
+    <p>Hola {{ cliente }}, tu reserva está en proceso.</p>
+{% else %}
+    <p>Aquí puedes gestionar tus reservas.</p>
+{% endif %}
+
+{% endblock %}

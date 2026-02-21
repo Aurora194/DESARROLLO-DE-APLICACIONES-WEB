@@ -1,23 +1,23 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Ruta principal
 @app.route('/')
 def inicio():
-    return "Bienvenido al Sistema de Reservas – Restaurante Leña Steak House"
+    return render_template("index.html")
 
-# Ruta reservas
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
+@app.route('/reservas')
+def reservas():
+    return render_template("reservas.html")
+
+# Ruta dinámica
 @app.route('/reserva/<cliente>')
 def reserva(cliente):
-    return f"Hola {cliente}, tu reserva está en proceso."
-
-# ruta mesas para los clientes
-@app.route('/mesa/<int:numero>')
-def mesa(numero):
-    return f"Mesa {numero} disponible para reservar."
+    return render_template("reservas.html", cliente=cliente)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
