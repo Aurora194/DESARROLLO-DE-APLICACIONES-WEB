@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema de Reservas{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
@@ -12,9 +13,10 @@
 </header>
 
 <nav>
-    <a href="/">Inicio</a>
-    <a href="/about">Acerca de</a>
-    <a href="/reservas">Reservas</a>
+    <a href="{{ url_for("inicio") }}">Inicio</a>
+    <a href="{{ url_for('about') }}">Acerca de</a>
+    <a href="{{ url_for('reservas') }}">Reservas</a>
+    <a href="{{ url_for('producto_nuevo') }}">Nuevo Producto</a>
 </nav>
 
 <hr>
@@ -27,7 +29,7 @@
 <hr>
 
 <footer>
-    <p>© 2026 Sistema de Reservas | Desarrollado con Flask</p>
+    <p>© 2026 Sistema de Reservas | Todos los derechos reservados. </p>
 </footer>
 
 </body>
