@@ -13,10 +13,19 @@
 </header>
 
 <nav>
-    <a href="{{ url_for("inicio") }}">Inicio</a>
+    <a href="{{ url_for('inicio') }}">Inicio</a>
     <a href="{{ url_for('about') }}">Acerca de</a>
     <a href="{{ url_for('reservas') }}">Reservas</a>
-    <a href="{{ url_for('producto_nuevo') }}">Nuevo Producto</a>
+
+    <!-- MENÚ DESPLEGABLE INVENTARIO -->
+    <div class="dropdown">
+        <a href="#" class="dropbtn">Inventario ▾</a>
+        <div class="dropdown-content">
+            <a href="{{ url_for('productos_listar') }}">Ver Inventario</a>
+            <a href="{{ url_for('producto_nuevo') }}">Añadir Producto</a>
+            <a href="{{ url_for('buscar_producto') }}">Buscar Producto</a>
+        </div>
+    </div>
 </nav>
 
 <hr>

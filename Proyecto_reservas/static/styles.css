@@ -83,7 +83,7 @@ main {
 }
 
 .btn:hover {
-    background: #00c6ff;
+    background: #0ecbff;
 }
 
 
@@ -157,9 +157,52 @@ form input[type="submit"] {
 }
 
 form input[type="submit"]:hover {
-    background: #00c6ff;
+    background: #0ecbff;
 }
 
+/* MENÚ DESPLEGABLE */
+.dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.dropbtn {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 12px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1f3c88;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #d7f5fd;
+}
+
+.dropdown-content {
+    transition: 0.3s ease;
+}
+
+/* Mostrar al pasar el mouse */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
 /* TABLA INVENTARIO */
 

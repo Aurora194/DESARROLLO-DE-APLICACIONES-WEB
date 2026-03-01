@@ -24,7 +24,7 @@ class Inventario:
         texto = texto.lower().strip()
         resultados = []
         for producto in self.productos.values():
-            if texto in producto.nombre. Lower() or texto in producto.descripcion. Lower():
+            if texto in producto.nombre.lower() or texto in producto.descripcion.lower():
                 resultados.append(producto.to_tuple())
         return resultados
 
@@ -43,6 +43,8 @@ class Inventario:
 
     # actualizar el producto en la base de datos
     def actualizar_producto (self, id, nombre, descripcion, cantidad, precio):
+        cantidad= int(cantidad)
+        precio = float(precio)
         if id in self.productos:
             with get_db_connection() as conn:
                 conn.execute('UPDATE productos SET nombre = ?, descripcion = ?, cantidad = ?, precio = ? WHERE id = ?',

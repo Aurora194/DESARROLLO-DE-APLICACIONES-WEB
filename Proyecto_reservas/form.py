@@ -1,7 +1,7 @@
 # formulario de producto
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, SubmitField
+from wtforms import StringField, DecimalField, SubmitField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 class ProductoForm(FlaskForm):

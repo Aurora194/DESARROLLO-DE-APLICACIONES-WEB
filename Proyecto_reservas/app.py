@@ -2,7 +2,7 @@ from flask import Flask, render_template,flash,url_for, redirect,request
 from form import ProductoForm
 from inventario.bd import init_db, get_db_connection
 from inventario.inventario import Inventario
-from inventario.productos import Producto
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mi_clave_secreta'
@@ -39,19 +39,45 @@ def producto_nuevo():
 def productos_listar():
     inventario.cargar_desde_db() # Asegurarse de cargar los productos más recientes
     productos = list(inventario.productos.values())
-    return render_template('productos.html', productos=productos)    
+    return render_template('productos.html', productos=productos) 
+
+# ruta para buscar producto
+@app.route('/productos/buscar', methods=['GET', 'POST'])
+def buscar_producto():
+    resultados = []
+    if request.method == 'POST':
+        texto = request.form['texto']
+        inventario.cargar_desde_db()
+        resultados = inventario.buscar_por_nombre(texto)
+    return render_template('buscar_producto.html', resultados=resultados)   
 
 # ruta para editar producto
 @app.route('/productos/editar/<int:id>', methods=['GET', 'POST'])
 def producto_editar(id):
+    inventario.cargar_desde_db()
     producto = inventario.productos.get(id)
+
     if not producto:
         flash('Producto no encontrado', 'danger')
         return redirect(url_for('productos_listar'))
-    return render_template('../productos/producto_editar.html', form=form, producto=producto)
+
+    form = ProductoForm(obj=producto)
+
+    if form.validate_on_submit():
+        inventario.actualizar_producto(
+            id,
+            form.nombre.data,
+            form.descripcion.data,
+            form.cantidad.data,
+            form.precio.data
+        )
+        flash('Producto actualizado correctamente', 'success')
+        return redirect(url_for('productos_listar'))
+
+    return render_template('editar_producto.html', form=form)
 
 # ruta para eliminar producto
-@app.route('/productos/eliminar/<int:id>', methods=['POST'])
+@app.route('/productos/eliminar/<int:id>', methods=['GET','POST'])
 def producto_eliminar(id):
     inventario.eliminar_producto(id)
     flash('Producto eliminado exitosamente', 'success')
