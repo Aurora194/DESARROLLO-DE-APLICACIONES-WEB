@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Nueva Reserva{% endblock %}
+
+{% block content %}
+<h2>Registrar Nueva Reserva</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- Nombre -->
+    <div>
+        {{ form.nombre.label }}<br>
+        {{ form.nombre(size=32) }}<br>
+        {% for error in form.nombre.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- Email -->
+    <div>
+        {{ form.email.label }}<br>
+        {{ form.email(size=32) }}<br>
+        {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- Celular -->
+    <div>
+        {{ form.celular.label }}<br>
+        {{ form.celular(size=32) }}<br>
+        {% for error in form.celular.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- Fecha Reserva -->
+    <div>
+        {{ form.fecha_reserva.label }}<br>
+        {{ form.fecha_reserva() }}<br>
+        {% for error in form.fecha_reserva.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- Número de Personas -->
+    <div>
+        {{ form.personas.label }}<br>
+        {{ form.personas () }}<br>
+        {% for error in form.personas.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.submit(class="btn") }}
+    </div>
+</form>
+
+{% endblock %}

@@ -15,15 +15,15 @@
 <nav>
     <a href="{{ url_for('inicio') }}">Inicio</a>
     <a href="{{ url_for('about') }}">Acerca de</a>
-    <a href="{{ url_for('reservas') }}">Reservas</a>
 
-    <!-- MENÚ DESPLEGABLE INVENTARIO -->
+
+    <!-- MENÚ DESPLEGABLE RESERVAS -->
     <div class="dropdown">
-        <a href="#" class="dropbtn">Inventario ▾</a>
+        <a href="#" class="dropbtn">Reservas ▾</a>
         <div class="dropdown-content">
-            <a href="{{ url_for('productos_listar') }}">Ver Inventario</a>
-            <a href="{{ url_for('producto_nuevo') }}">Añadir Producto</a>
-            <a href="{{ url_for('buscar_producto') }}">Buscar Producto</a>
+            <a href="{{ url_for('clientes_listar') }}">Ver Reservas</a>
+            <a href="{{ url_for('cliente_nuevo') }}">Añadir Reserva</a>
+            <a href="{{ url_for('buscar_cliente') }}">Buscar Reserva</a>
         </div>
     </div>
 </nav>

@@ -1,12 +1,31 @@
-# formulario de producto
+# formulario de cliente
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, SubmitField, IntegerField, FloatField
-from wtforms.validators import DataRequired, Length, NumberRange
+from wtforms import StringField, IntegerField, SubmitField, SelectField, DateField
+from wtforms.validators import DataRequired, Length, Email, NumberRange
+from datetime import date
 
-class ProductoForm(FlaskForm):
-    nombre = StringField('Nombre del producto', validators=[DataRequired(), Length (min=2, max=200)])
-    descripcion = StringField('Descripción del producto', validators=[DataRequired(), Length(min=2, max=500)])
-    cantidad = DecimalField('Cantidad disponible', validators=[DataRequired(), NumberRange (min=0)], places = 0)
-    precio = DecimalField('Precio del producto', validators=[DataRequired(), NumberRange (min=0.00)], places=2)
-    submit= SubmitField('Agregar Producto')
+
+class ClienteForm(FlaskForm):
+
+    nombre = StringField("Nombre", validators=[DataRequired(), Length(min=2, max=200)])
+    email = StringField("Email",  validators=[DataRequired(), Email(), Length(max=200)])
+    celular = StringField("Celular", validators=[DataRequired(), Length(min=10, max=10)])
+
+    # Campo con calendario automático
+    fecha_reserva = DateField(
+        "Fecha de Reserva",
+        validators=[DataRequired()],
+        format='%Y-%m-%d',
+        render_kw={"min": date.today()}  # No permite fechas pasadas
+    )
+
+    # Lista desplegable dinámica
+    personas = SelectField(
+    "Número de Personas",
+    choices=[(0, "")] + [(i, f"{i} Persona" if i == 1 else f"{i} Personas") for i in range(1, 9)],
+    coerce=int,
+    validators=[DataRequired()]
+)
+
+    submit = SubmitField("Guardar Reserva")
