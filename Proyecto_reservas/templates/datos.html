@@ -1,0 +1,49 @@
+{% block content %}
+<h2>Persistencia de Datos con txt, json csv</h2>
+<form method="POST">
+    <label for="">Nombre Completo </label>
+    <input type="text" name="nombre" id="">
+
+    <label for=""> Email </label>
+    <input type="text" name="email" id="">
+
+    <label for="">Celular </label>
+    <input type="text" name="celular" id="">
+
+    <label for=""> Fecha de Reserva </label>
+    <input type="text" name="fecha_reserva" id="">
+
+    <label for=""> Personas </label>
+    <input type="text" name="personas" id="">
+</form>
+
+<hr>
+<h3>Txt</h3>
+<ul>
+{% for line in datos_txt %}
+<li>{{line}}</li>
+{% endfor %}
+</ul>
+
+<h3>Json</h3>
+<pre>{{datos_json | tojson (indent=2)}}</pre>
+
+<h3>CSV </h3>
+<table border="1">
+    <tr>
+
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+    </tr>
+    {% for item in datos_csv %}
+    <tr>
+        <td>{{item.nombre}}</td>
+        <td>{{item.descripcion}}</td>
+        <td>{{item.precio}}</td>
+        <td>{{item.cantidad}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

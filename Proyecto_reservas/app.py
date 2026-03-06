@@ -3,15 +3,15 @@ from form import ClienteForm
 from datetime import datetime
 from reservas.bd import init_db
 from reservas.gestor_clientes import GestorClientes
-
-
+from flask_sqlalchemy import SQLAlchemy
+from reservas.gestor_persistencia import guardar_csv, leer_csv, guardar_json,  leer_json, guardar_txt,  leer_txt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mi_clave_secreta'
 
-#init_db()
-#inventario = Inventario()
-#inventario.cargar_desde_db()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///reservas.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy (app)
 
 init_db()
 gestor = GestorClientes()
@@ -47,10 +47,9 @@ def cliente_nuevo():
             "personas": form.personas.data
         }
 
-        gestor.agregar_cliente(cliente)
-        gestor.guardar_txt(cliente)
-        gestor.guardar_json(cliente)
-        gestor.guardar_csv(cliente)
+        guardar_txt(str(cliente))
+        guardar_json("clientes.json", cliente)
+        guardar_csv(cliente.values())
 
         flash("Reserva registrada correctamente", "success")
         return redirect(url_for("clientes_listar"))
@@ -114,24 +113,38 @@ def eliminar_cliente(id):
     return redirect(url_for("clientes_listar"))
 
 
-# VER DATOS ARCHIVOS
+# ruta para los datos persistentes
+@app.route('/datos')
+def datos():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        celular = request.form.get('celular')
+        fecha_reserva = request.form.get('fecha_reserva')
+        personas = request.form.get ('personas')
 
-@app.route("/datos/json")
-def ver_json():
-    datos = gestor.leer_json()
-    return render_template("datos.html", datos=datos)
+   # registrar en base
+    dic={
+    'nombre': nombre,
+    'email': email,
+    'celular': celular,
+    'fecha_reserva': fecha_reserva,
+    'personas': personas
+    }
 
+    # guardar en 3 formatos
+    guardar_txt(f" ({nombre},  {email},  {celular}, {fecha_reserva}, {personas}")
+    guardar_json(dic)
+    guardar_csv(dic.values())
+    flash('Datos guardados exitosamente', 'success')
+    return redirect(url_for('datos'))
+   
+    # leer datos de los 3 formatos
+    datos_txt = leer_txt()
+    datos_json = leer_json()
+    datos_cvs = leer_csv()
+    return render_template('datos.html', datos_txt=datos_txt, datos_json=datos_json, datos_csv=datos_cvs)
 
-@app.route("/datos/txt")
-def ver_txt():
-    datos = gestor.leer_txt()
-    return render_template("datos.html", datos=datos)
-
-
-@app.route("/datos/csv")
-def ver_csv():
-    datos = gestor.leer_csv()
-    return render_template("datos.html", datos=datos)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+            app.run(debug=True)

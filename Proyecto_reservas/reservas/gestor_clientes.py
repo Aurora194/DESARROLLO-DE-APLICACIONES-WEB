@@ -1,14 +1,7 @@
-# clase gestor de clientes
+# clase gestor de clientes 
 
-import json
-import csv
-from .bd import get_db_connection
-from pathlib import Path
-
-BASE_PATH = Path(__file__).parent / "data"
-TXT_PATH = BASE_PATH / "datos.txt"
-JSON_PATH = BASE_PATH / "datos.json"
-CSV_PATH = BASE_PATH / "datos.csv"
+from .clientes import Cliente
+from .bd import init_db, get_db_connection
 
 
 class GestorClientes:
@@ -35,7 +28,7 @@ class GestorClientes:
         with get_db_connection() as conn:
             return conn.execute("SELECT * FROM clientes").fetchall()
 
-    # obtener cliente por id  ← NUEVO
+    # obtener cliente por id  
     def obtener_cliente_por_id(self, id):
         with get_db_connection() as conn:
             return conn.execute(
@@ -74,62 +67,3 @@ class GestorClientes:
         with get_db_connection() as conn:
             conn.execute("DELETE FROM clientes WHERE id=?", (id,))
             conn.commit()
-
-
-    # Persistencia TXT
-
-    def guardar_txt(self, cliente):
-        with open(TXT_PATH, "a", encoding="utf-8") as f:
-            f.write(f"{cliente}\n")
-
-    def leer_txt(self):
-        if TXT_PATH.exists():
-            with open(TXT_PATH, "r", encoding="utf-8") as f:
-                return f.readlines()
-        return []
-
-
-    # Persistencia JSON
-
-    def guardar_json(self, cliente):
-        datos = []
-        if JSON_PATH.exists():
-            with open(JSON_PATH, "r", encoding="utf-8") as f:
-                try:
-                    datos = json.load(f)
-                except:
-                    datos = []
-
-        datos.append(cliente)
-
-        with open(JSON_PATH, "w", encoding="utf-8") as f:
-            json.dump(datos, f, indent=4)
-
-    def leer_json(self):
-        if JSON_PATH.exists():
-            with open(JSON_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
-        return []
-
-
-    # Persistencia CSV
-
-    def guardar_csv(self, cliente):
-        with open(CSV_PATH, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow([
-                cliente["nombre"],
-                cliente["email"],
-                cliente["celular"],
-                cliente["fecha_reserva"],
-                cliente["personas"]
-            ])
-
-    def leer_csv(self):
-        datos = []
-        if CSV_PATH.exists():
-            with open(CSV_PATH, "r", encoding="utf-8") as f:
-                reader = csv.reader(f)
-                for fila in reader:
-                    datos.append(fila)
-        return datos
