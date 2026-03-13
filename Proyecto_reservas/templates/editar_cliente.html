@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Editar Reserva</h2>
+<h2>Editar Cliente</h2>
 
 <form method="POST">
     {{ form.hidden_tag() }}
 
     <p>{{ form.nombre.label }} {{ form.nombre() }}</p>
+    <p>{{ form.apellido.label }} {{ form.apellido() }}</p>
     <p>{{ form.email.label }} {{ form.email() }}</p>
     <p>{{ form.celular.label }} {{ form.celular() }}</p>
-    <p>{{ form.fecha_reserva.label }} {{ form.fecha_reserva() }}</p>
-    <p>{{ form.personas.label }} {{ form.personas() }}</p>
-
+   
     <p>{{ form.submit(class="btn") }}</p>
 </form>
 

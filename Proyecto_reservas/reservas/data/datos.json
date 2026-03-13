@@ -1,72 +1,8 @@
 [
     {
-        "nombre": "aurora",
-        "email": "estefanivargas194@gmail.com",
-        "celular": "0989949558",
-        "fecha_reserva": "2026-03-12",
-        "personas": 1
-    },
-    {
-        "nombre": "Aurora",
-        "email": "estefanivargas194@gmail.com",
-        "celular": "0989949558",
-        "fecha_reserva": "2026-03-12",
-        "personas": 5
-    },
-    {
         "nombre": "Cecilia",
+        "apellido": "Roldan",
         "email": "cecilia@gmail.com",
-        "celular": "0989949500",
-        "fecha_reserva": "2026-03-07",
-        "personas": 4
-    },
-    {
-        "nombre": "Cecilia",
-        "email": "cecilia@gmail.com",
-        "celular": "0989949500",
-        "fecha_reserva": "2026-03-07",
-        "personas": 5
-    },
-    {
-        "nombre": "Ceci",
-        "email": "cecil@gmail.com",
-        "celular": "0989941104",
-        "fecha_reserva": "2026-03-08",
-        "personas": 4
-    },
-    {
-        "nombre": "Ceci",
-        "email": "cecil@gmail.com",
-        "celular": "0989941104",
-        "fecha_reserva": "2026-03-08",
-        "personas": 5
-    },
-    {
-        "nombre": "Ceci",
-        "email": "cecil@gmail.com",
-        "celular": "0989941104",
-        "fecha_reserva": "2026-03-10",
-        "personas": 3
-    },
-    {
-        "nombre": "aurora",
-        "email": "estefanivargas194@gmail.com",
-        "celular": "0989949558",
-        "fecha_reserva": "2026-03-12",
-        "personas": 7
-    },
-    {
-        "nombre": "hh",
-        "email": "estefanivargas194@gmail.com",
-        "celular": "0989949558",
-        "fecha_reserva": "2026-03-10",
-        "personas": 6
-    },
-    {
-        "nombre": "hh",
-        "email": "estefanivargas194@gmail.com",
-        "celular": "0989949558",
-        "fecha_reserva": "2026-03-10",
-        "personas": 2
+        "celular": "0989949500"
     }
 ]

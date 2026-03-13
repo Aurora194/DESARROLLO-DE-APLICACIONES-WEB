@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Horarios</h2>
+
+<a href="{{ url_for('horario_nuevo') }}" class="btn btn-primary mb-3">
+Agregar Nuevo Horario
+</a>
+
+<table class="table table-striped table-bordered">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Hora inicio</th>
+<th>Hora fin</th>
+<th>Descripción</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for h in horarios %}
+
+<tr>
+<td>{{ h.id_horario }}</td>
+<td>{{ h.hora_inicio }}</td>
+<td>{{ h.hora_fin }}</td>
+<td>{{ h.descripcion }}</td>
+
+<td>
+
+<a href="{{ url_for('editar_horario', id=h.id_horario) }}" class="btn btn-warning btn-sm">
+✏ Editar
+</a>
+
+<a href="{{ url_for('eliminar_horario', id=h.id_horario) }}" class="btn btn-danger btn-sm">
+🗑 Eliminar
+</a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+<td colspan="5">No hay horarios registrados</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% endblock %}

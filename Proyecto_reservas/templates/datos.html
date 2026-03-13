@@ -1,8 +1,11 @@
 {% block content %}
 <h2>Persistencia de Datos con txt, json csv</h2>
 <form method="POST">
-    <label for="">Nombre Completo </label>
+    <label for="">Nombre  </label>
     <input type="text" name="nombre" id="">
+    
+    <label for="">Apellido  </label>
+    <input type="text" name="apellido" id="">
 
     <label for=""> Email </label>
     <input type="text" name="email" id="">
@@ -10,11 +13,8 @@
     <label for="">Celular </label>
     <input type="text" name="celular" id="">
 
-    <label for=""> Fecha de Reserva </label>
-    <input type="text" name="fecha_reserva" id="">
-
-    <label for=""> Personas </label>
-    <input type="text" name="personas" id="">
+    <button type="submit">Guardar</button>
+    
 </form>
 
 <hr>
@@ -33,16 +33,17 @@
     <tr>
 
         <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Celular</th>
+       
     </tr>
     {% for item in datos_csv %}
     <tr>
-        <td>{{item.nombre}}</td>
-        <td>{{item.descripcion}}</td>
-        <td>{{item.precio}}</td>
-        <td>{{item.cantidad}}</td>
+        <td>{{item[0]}}</td>
+        <td>{{item[1]}}</td>
+        <td>{{item[2]}}</td>
+        <td>{{item[3]}}</td>
     </tr>
     {% endfor %}
 </table>

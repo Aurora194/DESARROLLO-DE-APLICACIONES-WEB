@@ -1,0 +1,18 @@
+
+<!-- Panel administrativo con estadísticas -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Panel Administrativo</h2>
+
+<div class="card">
+<p><strong>Total Reservas:</strong> {{ total_reservas }}</p>
+</div>
+
+<div class="card">
+<p><strong>Total Clientes:</strong> {{ total_clientes }}</p>
+</div>
+
+{% endblock %}

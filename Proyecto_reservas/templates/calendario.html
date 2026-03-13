@@ -1,0 +1,33 @@
+
+<!-- Muestra calendario de reservas -->
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Calendario de Reservas</h2>
+
+<table border="1">
+
+<tr>
+<th>Fecha</th>
+<th>Cliente</th>
+<th>Mesa</th>
+<th>Personas</th>
+</tr>
+
+{% for r in reservas %}
+
+<tr>
+<td>{{ r.fecha_reserva }}</td>
+<td>{{ r.cliente }}</td>
+<td>{{ r.mesa }}</td>
+<td>{{ r.cantidad_personas }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

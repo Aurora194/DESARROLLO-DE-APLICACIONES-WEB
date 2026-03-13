@@ -32,18 +32,24 @@ def leer_txt():
 # Persistencia JSON
 
 # Guardar datos json
-def guardar_json(dic, dict):
+def guardar_json(dic):
     asegurar_data_dir()
     data = leer_json()
-    data.append(dict)
-    with open(DATA_DIR/ "datos.json", 'w', encoding="utf-8") as f:
+    data.append(dic)
+
+    with open(DATA_DIR / "datos.json", 'w', encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 # leer datos json
 def leer_json():
     asegurar_data_dir()
-    json_file = DATA_DIR/ "datos.json"
+    json_file = DATA_DIR / "datos.json"
+
     if not json_file.exists():
+        return []
+
+    # si el archivo está vacío
+    if json_file.stat().st_size == 0:
         return []
     with open(json_file, 'r', encoding="utf-8") as f:
         return json.load(f)
@@ -54,12 +60,19 @@ def leer_json():
 def guardar_csv(dic: dict):
     asegurar_data_dir()
     existe = CSV_FILE.exists()
+
     with open(CSV_FILE, 'a', newline='', encoding="utf-8") as f:
         writer = csv.writer(f)
-        if not existe:
-            writer.writerow(['Campo1', 'Campo2', 'Campo3']) # Encabezados
-        writer.writerow(dic)
 
+        if not existe:
+            writer.writerow(['Nombre', 'Apellido', 'Email', 'Celular'])
+
+        writer.writerow([
+            dic["nombre"],
+            dic["apellido"],
+            dic["email"],
+            dic["celular"]
+        ])
 # leer datos csv
 def leer_csv():
     asegurar_data_dir()

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Editar Horario</h2>
+
+<form method="POST">
+
+    <label>Hora inicio</label>
+    <input type="time" name="hora_inicio" value="{{ horario.hora_inicio }}" class="form-control">
+
+    <br><label>Hora fin</label><br>
+    <input type="time" name="hora_fin" value="{{ horario.hora_fin }}" class="form-control">
+
+    <label>Descripción</label>
+    <input type="text" name="descripcion" value="{{ horario.descripcion }}" class="form-control">
+
+    <br>
+
+    <button class="btn btn-success">Actualizar</button>
+
+    <a href="{{ url_for('horarios') }}" class="btn btn-secondary">Cancelar</a>
+
+</form>
+
+{% endblock %}

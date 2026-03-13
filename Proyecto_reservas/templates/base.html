@@ -12,20 +12,52 @@
     <h1>Sistema de Reservas – Restaurante Leña Steak House</h1>
 </header>
 
+
 <nav>
+
     <a href="{{ url_for('inicio') }}">Inicio</a>
     <a href="{{ url_for('about') }}">Acerca de</a>
+    <a href="{{ url_for('menu') }}">Menú</a>
 
 
-    <!-- MENÚ DESPLEGABLE RESERVAS -->
     <div class="dropdown">
-        <a href="#" class="dropbtn">Reservas ▾</a>
+    <a class="dropbtn">Clientes ▾</a>
         <div class="dropdown-content">
-            <a href="{{ url_for('clientes_listar') }}">Ver Reservas</a>
-            <a href="{{ url_for('cliente_nuevo') }}">Añadir Reserva</a>
-            <a href="{{ url_for('buscar_cliente') }}">Buscar Reserva</a>
+            <a href="{{ url_for('clientes_listar') }}">Lista Clientes</a>
+            <a href="{{ url_for('cliente_nuevo') }}">Nuevo Cliente</a>
+            <a href="{{ url_for('buscar_cliente') }}">Buscar Cliente</a>
         </div>
     </div>
+
+    <div class="dropdown">
+    <a class="dropbtn">Reservas ▾</a>
+        <div class="dropdown-content">
+            <a href="{{ url_for('reservas') }}">Ver Reservas</a>
+            <a href="{{ url_for('reserva_nuevo') }}">Añadir Reserva</a>
+            <a href="{{ url_for('buscar_reserva') }}">Buscar Reserva</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a class="dropbtn">Mesas ▾</a>
+        <div class="dropdown-content">
+            <a href="{{ url_for('mesas') }}">Lista Mesas</a>
+            <a href="{{ url_for('mesa_nueva') }}">Nueva Mesa</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+    <a class="dropbtn">Horarios ▾</a>
+        <div class="dropdown-content">
+            <a href="{{ url_for('horarios') }}">Lista Horarios</a>
+            <a href="{{ url_for('horario_nuevo') }}">Nuevo Horario</a>
+        </div>
+    </div>
+
+    <a href="{{ url_for('admin') }}">Panel Admin</a>
+
+</nav>
+    
 </nav>
 
 <hr>
@@ -36,6 +68,25 @@
 </main>
 
 <hr>
+<main>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+{% for category, message in messages %}
+
+<div class="card">
+{{ message }}
+</div>
+
+{% endfor %}
+
+{% endif %}
+{% endwith %}
+
+
+
+</main>
 
 <footer>
     <p>© 2026 Sistema de Reservas | Todos los derechos reservados. </p>

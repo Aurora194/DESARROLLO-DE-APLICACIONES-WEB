@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Nueva Reserva{% endblock %}
+
+{% block content %}
+<h2>Registrar Nueva Reserva</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- Fecha Reserva -->
+    <div>
+        {{ form.fecha_reserva.label }}<br>
+        {{ form.fecha_reserva() }}<br>
+        {% for error in form.fecha_reserva.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- Personas -->
+    <div>
+        {{ form.personas.label }}<br>
+        {{ form.personas() }}<br>
+        {% for error in form.personas.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- Observacion -->
+    <div>
+        {{ form.observacion.label }}<br>
+        {{ form.observacion(size=32) }}<br>
+        {% for error in form.observacion.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- ID CLIENTE -->
+    <div>
+        {{ form.id_cliente.label }}<br>
+        {{ form.id_cliente() }}<br>
+        {% for error in form.id_cliente.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    <!-- ID MESA  -->
+    <div>
+        {{ form.id_mesa.label }}<br>
+        {{ form.id_mesa () }}<br>
+        {% for error in form.id_mesa.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    
+    <!-- ID HORARIO  -->
+    <div>
+        {{ form.id_horario.label }}<br>
+        {{ form.id_horario () }}<br>
+        {% for error in form.id_horario.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-success btn-lg px-4">
+    💾 Guardar Reserva
+    </button>
+</form>
+
+{% endblock %}

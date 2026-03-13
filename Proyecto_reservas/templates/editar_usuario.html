@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Editar Usuario</h2>
+
+
+<form method="POST">
+
+<div class="mb-3">
+<label>Nombre</label><br>
+<input type="text" name="nombre" class="form-control"
+value="{{ usuario.nombre }}" required>
+</div>
+
+<div class="mb-3">
+<label>Email</label><br>
+<input type="email" name="email" class="form-control"
+value="{{ usuario.email }}" required>
+</div>
+
+<div class="mb-3">
+<label>Password</label><br>
+<input type="text" name="password" class="form-control"
+value="{{ usuario.password }}" required>
+</div>
+
+<div class="text-center">
+<button class="btn btn-success">
+💾 Actualizar Usuario
+</button>
+
+<a href="{{ url_for('usuarios') }}" class="btn btn-secondary">
+↩ Cancelar
+</a>
+</div>
+
+</form>
+
+</div>
+
+{% endblock %}

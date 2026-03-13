@@ -1,7 +1,8 @@
 # clase gestor de clientes 
 
-from .clientes import Cliente
+from .horarios import Horario
 from .bd import init_db, get_db_connection
+from conexion.conexion import obtener_conexion
 
 
 class GestorClientes:
@@ -9,61 +10,101 @@ class GestorClientes:
 
     # CRUD SQLite
 
-    def agregar_cliente(self, cliente):
-        with get_db_connection() as conn:
-            conn.execute("""
-                INSERT INTO clientes (nombre, email, celular, fecha_reserva, personas)
-                VALUES (?, ?, ?, ?, ?)
-            """, (
-                cliente["nombre"],
-                cliente["email"],
-                cliente["celular"],
-                cliente["fecha_reserva"],
-                cliente["personas"]
-            ))
-            conn.commit()
+    def agregar_cliente(cliente):
 
-    # listar clientes de tuplas
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+
+        sql = """
+        INSERT INTO clientes (nombre, apellido, email, celular)
+        VALUES (%s,%s,%s,%s)
+        """
+
+        valores = (
+            cliente["nombre"],
+            cliente["apellido"],
+            cliente["email"],
+            cliente["celular"]
+        )
+
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        conexion.close()
+
+    # listar clientes 
     def listar_clientes(self):
-        with get_db_connection() as conn:
-            return conn.execute("SELECT * FROM clientes").fetchall()
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM clientes")
+        clientes = cursor.fetchall()
+        conexion.close()
+        return clientes
+
 
     # obtener cliente por id  
     def obtener_cliente_por_id(self, id):
-        with get_db_connection() as conn:
-            return conn.execute(
-                "SELECT * FROM clientes WHERE id=?",
-                (id,)
-            ).fetchone()
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT * FROM clientes WHERE id_cliente=%s", (id,)
+        )
+
+        cliente = cursor.fetchone()
+        conexion.close()
+        return cliente
         
     # buscar cliente
     def buscar_cliente(self, texto):
-        with get_db_connection() as conn:
-            return conn.execute(
-                "SELECT * FROM clientes WHERE nombre LIKE ?",
-                ('%' + texto + '%',)
-            ).fetchall()
-        
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor(dictionary=True)
+
+        sql = "SELECT * FROM clientes WHERE nombre LIKE %s"
+        cursor.execute(sql, ("%" + texto + "%",))
+
+        resultados = cursor.fetchall()
+
+        cursor.close()
+        conexion.close()
+
+        return resultados
 
     # actualizar el cliente en la base de datos
     def actualizar_cliente(self, id, cliente):
-        with get_db_connection() as conn:
-            conn.execute("""
-                UPDATE clientes
-                SET nombre=?, email=?, celular=?, fecha_reserva=?, personas=?
-                WHERE id=?
-            """, (
-                cliente["nombre"],
-                cliente["email"],
-                cliente["celular"],
-                cliente["fecha_reserva"],
-                cliente["personas"],
-                id
-            ))
-            conn.commit()
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        sql = """
+        UPDATE clientes
+        SET nombre=%s, apellido=%s, email=%s, celular=%s
+        WHERE id_cliente=%s
+        """
+
+        valores = (
+            cliente["nombre"],
+            cliente["apellido"],
+            cliente["email"],
+            cliente["celular"],
+            id
+        )
+
+        cursor.execute(sql, valores)
+        conexion.commit()
+        conexion.close()
+
 
     # eliminar cliente
     def eliminar_cliente(self, id):
-        with get_db_connection() as conn:
-            conn.execute("DELETE FROM clientes WHERE id=?", (id,))
-            conn.commit()
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(
+            "DELETE FROM clientes WHERE id_cliente=%s",
+            (id,)
+        )
+
+        conexion.commit()
+        conexion.close()

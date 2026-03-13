@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Editar Mesa</h2>
+
+<form method="POST">
+
+    <label>Nombre</label><br>
+    <input type="text" name="nombre" value="{{ mesa.nombre }}" class="form-control">
+
+    <label>Descripción</label><br>
+    <input type="text" name="descripcion" value="{{ mesa.descripcion }}" class="form-control">
+
+    <br><label>Ubicación</label><br>
+    <input type="text" name="ubicacion" value="{{ mesa.ubicacion }}" class="form-control">
+
+<br>
+
+<button class="btn btn-success">Actualizar</button>
+
+    <a href="{{ url_for('mesas') }}" class="btn btn-secondary">Cancelar</a>
+
+</form>
+
+{% endblock %}

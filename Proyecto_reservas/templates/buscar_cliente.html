@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Buscar Reserva</h2>
+<h2>Buscar Cliente</h2>
 
 <form method="POST">
     <input type="text" name="texto" placeholder="Ingrese nombre">
@@ -12,21 +12,19 @@
 <table>
     <tr>
         <th>ID</th>
-        <th>Nombre Completo</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
         <th>Email</th>
         <th>Celular</th>
-        <th>Fecha Reserva</th>
-        <th>Personas</th>
     </tr>
 
     {% for p in resultados %}
     <tr>
-        <td>{{ p[0] }}</td>
-        <td>{{ p[1] }}</td>
-        <td>{{ p[2] }}</td>
-        <td>{{ p[3] }}</td>
-        <td>{{ p[4] }}</td>
-        <td>{{ p[5] }}</td>
+        <td>{{ p.id_cliente }}</td>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.apellido }}</td>
+        <td>{{ p.email }}</td>
+        <td>{{ p.celular }}</td>
     </tr>
     {% endfor %}
 </table>

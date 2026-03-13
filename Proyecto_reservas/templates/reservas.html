@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Reservas{% endblock %}
+
+{% block content %}
+
+<h2>Reservas</h2>
+
+<a href="{{ url_for('reserva_nuevo') }}" class="btn btn-primary mb-3">
+Agregar Nueva Reserva
+</a>
+
+<table class="table table-striped table-bordered">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Fecha</th>
+<th>Personas</th>
+<th>Observación</th>
+<th>Cliente</th>
+<th>Mesa</th>
+<th>Horario</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for reserva in reservas %}
+
+<tr>
+<td>{{ reserva.id_reserva }}</td>
+<td>{{ reserva.fecha_reserva }}</td>
+<td>{{ reserva.cantidad_personas }}</td>
+<td>{{ reserva.observacion }}</td>
+<td>{{ reserva.cliente }}</td>
+<td>{{ reserva.mesa }}</td>
+<td>{{ reserva.horario }}</td>
+<td>
+
+<a href="{{ url_for('editar_reserva', id=reserva.id_reserva) }}" class="btn btn-warning btn-sm">
+✏ Editar
+</a>
+
+<a href="{{ url_for('eliminar_reserva', id=reserva.id_reserva) }}" class="btn btn-danger btn-sm">
+🗑 Eliminar
+</a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+<td colspan="8">No hay reservas registradas</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% endblock %}

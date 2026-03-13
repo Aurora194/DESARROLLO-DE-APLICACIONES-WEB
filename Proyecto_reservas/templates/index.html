@@ -1,9 +1,122 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card">
-    <h2>Bienvenido al Sistema de Reservas</h2>
-    <p>Gestiona reservas de forma rápida y segura.</p>
-    <a href="/clientes" class="btn">Ver Reservas</a>
+
+<!-- Título principal -->
+
+<h1 style="text-align:center; margin-bottom:20px;">
+🔥 Bienvenido a Leña Steak House
+</h1>
+
+<!-- Carrusel automático -->
+
+<div class="carousel">
+
+<img class="slide" src="{{ url_for('static', filename='img/parrilla.jpg') }}">
+<img class="slide" src="{{ url_for('static', filename='img/carne.jpg') }}">
+<img class="slide" src="{{ url_for('static', filename='img/restaurante.jpg') }}">
+
 </div>
+
+<!-- Introducción -->
+
+<div class="card">
+
+<p style="font-size:18px; text-align:justify;">
+En <b>Leña Steak House</b> ofrecemos una experiencia gastronómica única basada
+en la tradición de la parrilla al fuego de leña. Nuestro restaurante combina 
+ingredientes de alta calidad con técnicas culinarias especializadas para ofrecer
+cortes de carne premium y platos gourmet. A través de este sistema podrás realizar 
+reservas fácilmente, seleccionar tu mesa y organizar tu visita para disfrutar de 
+una experiencia gastronómica inolvidable.
+</p>
+
+
+<div style="text-align:center; margin-top:25px;">
+<a href="{{ url_for('reservas') }}" class="btn">🍽 Ver Reservas</a>
+<a href="{{ url_for('cliente_nuevo') }}" class="btn">👤 Nuevo Cliente</a>
+</div>
+
+</div>
+
+<!-- Estadísticas -->
+
+<div class="card">
+
+<h3 style="text-align:center;">📊 Nuestro restaurante en números</h3>
+
+<div class="stats">
+
+<div class="stat-box">
+<h2>10</h2>
+<p>👨‍🍳 Chefs profesionales</p>
+</div>
+
+<div class="stat-box">
+<h2>80</h2>
+<p>🍽 Platos gourmet</p>
+</div>
+
+<div class="stat-box">
+<h2>10+</h2>
+<p>⭐ Años de experiencia</p>
+</div>
+
+<div class="stat-box">
+<h2>15000+</h2>
+<p>❤️ Clientes satisfechos</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Sistema -->
+
+<div class="card">
+
+<h3 style="text-align:center;">📅 Sistema de Reservas</h3>
+
+<p style="text-align:center;">
+Nuestro sistema permite administrar clientes, mesas, horarios y reservas
+de manera rápida y eficiente.
+</p>
+
+<div style="text-align:center; margin-top:20px;">
+
+<a href="{{ url_for('clientes_listar') }}" class="btn">Clientes</a> <a href="{{ url_for('mesas') }}" class="btn">Mesas</a> <a href="{{ url_for('horarios') }}" class="btn">Horarios</a>
+
+</div>
+
+</div>
+
+<!-- Script carrusel -->
+
+<script>
+
+let slideIndex = 0;
+showSlides();
+
+function showSlides(){
+
+let slides = document.getElementsByClassName("slide");
+
+for(let i=0;i<slides.length;i++){
+slides[i].style.display="none";
+}
+
+slideIndex++;
+
+if(slideIndex > slides.length){
+slideIndex = 1;
+}
+
+slides[slideIndex-1].style.display="block";
+
+setTimeout(showSlides,3000);
+
+}
+
+</script>
+
 {% endblock %}

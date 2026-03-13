@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Nueva Reserva{% endblock %}
+{% block title %}Nuevo Cliente{% endblock %}
 
 {% block content %}
-<h2>Registrar Nueva Reserva</h2>
+<h2>Registrar Nuevo Cliente</h2>
 
 <form method="POST">
     {{ form.hidden_tag() }}
@@ -12,6 +12,16 @@
         {{ form.nombre.label }}<br>
         {{ form.nombre(size=32) }}<br>
         {% for error in form.nombre.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+        {% endfor %}
+    </div>
+
+    
+    <!-- Apellido -->
+    <div>
+        {{ form.apellido.label }}<br>
+        {{ form.apellido(size=32) }}<br>
+        {% for error in form.apellido.errors %}
             <span style="color: red;">[{{ error }}]</span><br>
         {% endfor %}
     </div>
@@ -34,27 +44,12 @@
         {% endfor %}
     </div>
 
-    <!-- Fecha Reserva -->
-    <div>
-        {{ form.fecha_reserva.label }}<br>
-        {{ form.fecha_reserva() }}<br>
-        {% for error in form.fecha_reserva.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
-    </div>
 
-    <!-- Número de Personas -->
-    <div>
-        {{ form.personas.label }}<br>
-        {{ form.personas () }}<br>
-        {% for error in form.personas.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
-    </div>
+ 
+    <button type="submit" class="btn btn-success btn-lg px-4">
+    💾 Guardar Cliente
+    </button>
 
-    <div>
-        {{ form.submit(class="btn") }}
-    </div>
 </form>
 
 {% endblock %}

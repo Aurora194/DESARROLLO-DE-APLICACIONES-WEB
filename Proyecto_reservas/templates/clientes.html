@@ -1,61 +1,63 @@
 {% extends "base.html" %}
 
-{% block title %}Gestión de Reservas{% endblock %}
+{% block title %}Gestión de Clientes{% endblock %}
 
 {% block content %}
 
-<h2>Gestión de Reservas</h2>
+<h2>Clientes</h2>
 
-{% if cliente %}
-    <p>Hola {{ cliente }}, tu reserva está en proceso.</p>
-{% else %}
-    <p>Aquí puedes gestionar tus reservas.</p>
-
-
-{% endif %}
-
-<hr style="margin:10px 0;">
-
-<h2>Lista de Reservas</h2>
-
-<a href="{{ url_for('cliente_nuevo') }}" class="btn btn-primary">
-    Agregar Nueva Reserva
+<a href="{{ url_for('cliente_nuevo') }}" class="btn btn-primary mb-3">
+Agregar Nuevo Cliente
 </a>
 
-<br><br>
+<table class="table table-striped table-bordered">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre Completo</th>
-            <th>Email</th>
-            <th>Celular</th>
-            <th>Fecha de Reserva</th>
-            <th>Personas</th>
-        </tr>
-    </thead>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Apellido</th>
+<th>Email</th>
+<th>Celular</th>
+<th>Acciones</th>
+</tr>
+</thead>
 
-    <tbody>
-        {% for cliente in clientes %}
-        <tr>
-            <td>{{ cliente.id }}</td>
-            <td>{{ cliente.nombre }}</td>
-            <td>{{ cliente.email }}</td>
-            <td>{{ cliente.celular }}</td>
-            <td>{{ cliente.fecha_reserva }}</td>
-            <td>{{ cliente.personas }}</td>
-            <td>
-                <a href="{{ url_for('editar_cliente', id=cliente.id) }}">Editar</a> |
-                <a href="{{ url_for('eliminar_cliente', id=cliente.id) }}">Eliminar</a>
-            </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="7">No hay reservas registradas.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+<tbody>
+
+{% for cliente in clientes %}
+
+<tr>
+<td>{{ cliente.id_cliente }}</td>
+<td>{{ cliente.nombre }}</td>
+<td>{{ cliente.apellido }}</td>
+<td>{{ cliente.email }}</td>
+<td>{{ cliente.celular }}</td>
+
+<td>
+
+<a href="{{ url_for('editar_cliente', id=cliente.id_cliente) }}" class="btn btn-warning btn-sm">
+✏ Editar
+</a>
+
+<a href="{{ url_for('eliminar_cliente', id=cliente.id_cliente) }}" class="btn btn-danger btn-sm">
+🗑 Eliminar
+</a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+<td colspan="6">No hay clientes registrados</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
 </table>
 
 {% endblock %}

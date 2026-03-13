@@ -1,8 +1,79 @@
 {% extends "base.html" %}
-
 {% block title %}Acerca de{% endblock %}
 
 {% block content %}
-<h2>Acerca del Sistema</h2>
-<p>Este sistema permite gestionar reservas para el restaurante.</p>
+
+    <div class="card shadow p-4" style="max-width:900px; margin:auto;">
+
+    <h2 style="text-align:center;">🔥 Leña Steak House</h2>
+
+        <p style="text-align:center; font-size:18px;">
+        Tradición, sabor y pasión por la parrilla
+        </p>
+
+        <hr>
+
+        <p style="text-align:justify;">
+        Leña Steak House nace de la pasión por la parrilla y los sabores auténticos.
+        Nuestro restaurante se especializa en cortes premium preparados al fuego de
+        leña, creando una experiencia gastronómica que combina tradición,
+        calidad e innovación culinaria.
+        </p>
+
+        <p style="text-align:justify;">
+        Nuestro equipo de chefs profesionales trabaja con ingredientes frescos y
+        seleccionados cuidadosamente para garantizar platos de alta calidad.
+        Cada preparación busca resaltar el sabor natural de los productos y
+        ofrecer una experiencia culinaria única para nuestros clientes.
+        </p>
+
+        <p style="text-align:justify;">
+        Con más de <b>10 años de experiencia</b> y miles de clientes satisfechos,
+        Leña Steak House se ha convertido en un referente en gastronomía
+        de parrilla, destacándose por su ambiente elegante,
+        atención personalizada y excelencia en cada plato servido.
+        </p>
+
+    <hr>
+
+    <h3>⭐ Nuestros valores</h3>
+
+        <ul style="font-size:17px;">
+            <li>🥩 Calidad en cada ingrediente</li>
+            <li>🔥 Pasión por la parrilla</li>
+            <li>🤝 Atención al cliente excepcional</li>
+            <li>🍽 Experiencias gastronómicas memorables</li>
+        </ul>
+
+    </div>
+
+    <br>
+
+    <!-- BOTONES DE ACCESO -->
+
+    <div class="card shadow p-4" style="max-width:900px; margin:auto; text-align:center;">
+
+    <h3>📌 Accesos rápidos</h3>
+
+        <p>
+        Puedes revisar nuestras reservas disponibles o contactarnos directamente
+        para coordinar tu visita.
+        </p>
+
+        <div style="margin-top:20px;">
+
+        <a href="{{ url_for('calendario') }}" class="btn" style="margin:10px;">
+        📅 Ver Calendario de Reservas
+        </a>
+
+        <a href="{{ url_for('contacto') }}" class="btn" style="margin:10px;">
+        📞 Contactar Restaurante
+        </a>
+
+    </div>
+
+    </div>
+
+<hr>
+
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Editar Reserva</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.fecha_reserva.label }} {{ form.fecha_reserva() }}</p>
+    <p>{{ form.personas.label }} {{ form.personas() }}</p>
+    <p>{{ form.observacion.label }} {{ form.observacion() }}</p>
+    <p>{{ form.id_cliente.label }} {{ form.id_cliente() }}</p>
+    <p>{{ form.id_mesa.label }} {{ form.id_mesa() }}</p>
+    <p>{{ form.id_horario.label }} {{ form.id_horario() }}</p>
+   
+    <p>{{ form.submit(class="btn") }}</p>
+</form>
+
+{% endblock %}

@@ -1,25 +1,25 @@
 # clase cliente
    
 class Cliente:
-    def __init__(self, id, nombre, email, celular, fecha_reserva, personas):
-        self.id = id
+
+    def __init__(self, id_cliente, nombre, apellido, email, celular):
+        self.id_cliente = id_cliente
         self.nombre = nombre
+        self.apellido = apellido
         self.email = email
         self.celular = celular
-        self.fecha_reserva = fecha_reserva
-        self.personas = personas
+
 
    # tuple
     def to_tuple(self):
-        return (self.id, self.nombre, self.email, self.celular, self.fecha_reserva, self.personas)
+        return (self.id_cliente, self.nombre, self.apellido, self.email, self.celular)
 
     # dict
     def to_dict(self):
         return {
-            "id": self.id,
+            "id": self.id_cliente,
             "nombre": self.nombre,
+            "apellido":self.apellido,
             "email": self.email,
             "celular": self.celular,
-            "fecha_reserva": self.fecha_reserva,
-            "personas": self.personas
         }

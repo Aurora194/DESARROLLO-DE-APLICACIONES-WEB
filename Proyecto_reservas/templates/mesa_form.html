@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Nueva Mesa{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Registrar Nueva Mesa</h2>
+
+
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="form-label">Nombre</label><br>
+<input type="text" name="nombre" class="form-control" placeholder="Ej: Mesa 1" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Descripción</label>
+<input type="text" name="descripcion" class="form-control" placeholder="Ej: Mesa para 4 personas" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Ubicación</label><br>
+<input type="text" name="ubicacion" class="form-control" placeholder="Ej: Terraza" required>
+</div>
+
+<div class="text-center mt-4">
+
+<button type="submit" class="btn btn-success btn-lg px-4">
+💾 Guardar Mesa
+</button>
+
+<a href="{{ url_for('mesas') }}" class="btn btn-outline-secondary btn-lg px-4">
+↩ Cancelar
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+{% endblock %}
