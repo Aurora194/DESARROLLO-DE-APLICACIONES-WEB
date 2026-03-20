@@ -77,7 +77,7 @@ class GestorMesas:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "ELETE FROM mesas WHERE id_mesa=%s",
+            "DELETE FROM mesas WHERE id_mesa=%s",
             (id,)
         )
 

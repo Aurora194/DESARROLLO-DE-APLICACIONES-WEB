@@ -32,9 +32,16 @@ una experiencia gastronómica inolvidable.
 </p>
 
 
-<div style="text-align:center; margin-top:25px;">
-<a href="{{ url_for('reservas') }}" class="btn">🍽 Ver Reservas</a>
-<a href="{{ url_for('cliente_nuevo') }}" class="btn">👤 Nuevo Cliente</a>
+<div class="text-center mt-4">
+
+<a href="{{ url_for('reservas') }}" class="btn btn-primary btn-lg m-2">
+🍽 Ver Reservas
+</a>
+
+<a href="{{ url_for('cliente_nuevo') }}" class="btn btn-success btn-lg m-2">
+👤 Nuevo Cliente
+</a>
+
 </div>
 
 </div>
@@ -84,8 +91,17 @@ de manera rápida y eficiente.
 
 <div style="text-align:center; margin-top:20px;">
 
-<a href="{{ url_for('clientes_listar') }}" class="btn">Clientes</a> <a href="{{ url_for('mesas') }}" class="btn">Mesas</a> <a href="{{ url_for('horarios') }}" class="btn">Horarios</a>
+<a href="{{ url_for('clientes_listar') }}" class="btn btn-primary btn-lg m-2 shadow">
+👥 Clientes
+</a>
 
+<a href="{{ url_for('mesas') }}" class="btn btn-success btn-lg m-2 shadow">
+🪑 Mesas
+</a>
+
+<a href="{{ url_for('horarios') }}" class="btn btn-warning btn-lg m-2 shadow">
+⏰ Horarios
+</a>
 </div>
 
 </div>

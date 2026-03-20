@@ -56,9 +56,9 @@ class GestorHorarios:
         cursor = conexion.cursor()
         sql = """
         UPDATE horarios
-        SET nombre=%s, descripcion=%s, ubicacion=%s
-        WHERE id_mesa=%s
-            """
+        SET hora_inicio=%s, hora_fin=%s, descripcion=%s
+        WHERE id_horario=%s
+        """ 
         valores =(
                 horario["hora_inicio"],
                 horario["hora_fin"],
@@ -77,7 +77,7 @@ class GestorHorarios:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "ELETE FROM horarios WHERE id_horario=%s",
+            "DELETE FROM horarios WHERE id_horario=%s",
             (id,)
         )
 

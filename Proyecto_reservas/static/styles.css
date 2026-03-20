@@ -259,45 +259,84 @@ ul li {
     margin-bottom: 8px;
 }
 
-.menu-container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-top:30px;
+
+
+
+/* CONTENEDOR */
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    align-items: stretch; /* 🔥 clave */
 }
 
-.menu-card{
-padding:20px;
-border-radius:10px;
-transition:0.3s;
+/* TARJETA BASE */
+.menu-card {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%; /* 🔥 ocupa toda la altura del grid */
+    min-height: 350px; /* 🔥 altura base uniforme */
+
+    padding: 20px;
+    border-radius: 15px;
+
+    background: white;
+    border: 1px solid #eee;
+
+    transition: all 0.3s ease;
+}
+/* EFECTO HOVER MÁS FINO */
+.menu-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
-.menu-card:hover{
-transform:scale(1.03);
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
+/* TÍTULO */
+.menu-card h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
 }
 
-.menu-card h3{
-text-align:center;
-margin-bottom:15px;
+/* LISTA */
+.menu-card ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1; /* 🔥 clave para igualar alturas */
 }
 
-.menu-card ul{
-list-style:none;
-padding:0;
+/* ITEMS */
+.menu-card li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.menu-card li{
-display:flex;
-justify-content:space-between;
-padding:8px 0;
-border-bottom:1px solid #ddd;
-font-size:16px;
+/* ÚLTIMO ITEM SIN LÍNEA */
+.menu-card li:last-child {
+    border-bottom: none;
 }
 
-.menu-card span{
-font-weight:bold;
-color:#b22222;
+/* PRECIO */
+.menu-card span {
+    font-weight: bold;
+    color: #e63946;
+    min-width: 50px;      /* 🔥 todos los precios alineados */
+    text-align: right;    /* 🔥 alineación elegante */
+    margin-left: 15px;    /* 🔥 separación clara */
+}
+
+/* EFECTO EXTRA (detalle elegante) */
+.menu-card::after {
+    content: "";
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(to right, #1f3c88, #0ecbff);
+    border-radius: 0 0 15px 15px;
+    margin-top: 10px;
 }
 
 /* COLUMNA ACCIONES MÁS ANCHA */
@@ -364,3 +403,28 @@ font-size:35px;
 color: #1f3c88;
 margin-bottom:10px;
 }
+
+table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* BOTONES MÁS BONITOS */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* INPUT MÁS MODERNO */
+.form-control {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* SOMBRAS SUAVES */
+.shadow {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+}
+

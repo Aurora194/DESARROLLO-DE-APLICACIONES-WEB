@@ -6,12 +6,15 @@ def obtener_conexion():
     try:
         connection = mysql.connector.connect(
             host='localhost',
+            port=3308,
             database='reservas_restaurante',
             user='root',
-            password='1234'
+            password='12345'
         )
+
         if connection.is_connected():
             return connection
+
     except Error as e:
-        print(f"Error al conectar a MySQL: {e}")
+        print("ERROR MYSQL:", e)
         return None

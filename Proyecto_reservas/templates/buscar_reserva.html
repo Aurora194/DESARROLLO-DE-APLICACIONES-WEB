@@ -2,14 +2,25 @@
 
 {% block content %}
 
-<h2>Buscar Reserva</h2>
+<h2 class="mb-3">📅 Buscar Reserva</h2>
 
-<form method="POST">
-    <input type="text" name="texto" placeholder="Ingrese nombre del cliente">
-    <input type="submit" value="Buscar">
+<form method="POST" class="mb-4">
+    <input type="text" name="texto" 
+           placeholder="Ingrese nombre del cliente"
+           class="form-control mb-2">
+
+    <button type="submit" class="btn btn-success btn-lg m-2">
+         🔍 Buscar
+    </button>
 </form>
 
-<br>
+{% if mensaje %}
+
+<div class="alert alert-danger text-center">
+    {{ mensaje }}
+</div>
+
+{% endif %}
 
 {% if resultados %}
 
@@ -40,10 +51,6 @@
 {% endfor %}
 
 </table>
-
-{% else %}
-
-<p>No se encontraron reservas</p>
 
 {% endif %}
 

@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema de Reservas{% endblock %}</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -12,85 +15,107 @@
     <h1>Sistema de Reservas – Restaurante Leña Steak House</h1>
 </header>
 
+{% if current_user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
 
-<nav>
+    <a class="navbar-brand" href="{{ url_for('inicio') }}">🔥 Leña</a>
 
-    <a href="{{ url_for('inicio') }}">Inicio</a>
-    <a href="{{ url_for('about') }}">Acerca de</a>
-    <a href="{{ url_for('menu') }}">Menú</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+    ☰
+    </button>
 
+    <div class="collapse navbar-collapse" id="menu">
 
-    <div class="dropdown">
-    <a class="dropbtn">Clientes ▾</a>
-        <div class="dropdown-content">
-            <a href="{{ url_for('clientes_listar') }}">Lista Clientes</a>
-            <a href="{{ url_for('cliente_nuevo') }}">Nuevo Cliente</a>
-            <a href="{{ url_for('buscar_cliente') }}">Buscar Cliente</a>
-        </div>
+    <ul class="navbar-nav me-auto">
+
+    <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('inicio') }}">Inicio</a>
+    </li>
+
+    <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('about') }}">Acerca</a>
+    </li>
+
+    <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('menu') }}">Menú</a>
+    </li>
+
+    <!-- CLIENTES -->
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Clientes</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ url_for('clientes_listar') }}">Lista</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('cliente_nuevo') }}">Nuevo</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('buscar_cliente') }}">Buscar</a></li>
+        </ul>
+    </li>
+
+    <!-- RESERVAS -->
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Reservas</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ url_for('reservas') }}">Ver</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('reserva_nuevo') }}">Nueva</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('buscar_reserva') }}">Buscar</a></li>
+        </ul>
+    </li>
+
+    </ul>
+
+    <ul class="navbar-nav">
+     <li class="nav-item">
+         <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+     </li>
+    </ul>
+
     </div>
-
-    <div class="dropdown">
-    <a class="dropbtn">Reservas ▾</a>
-        <div class="dropdown-content">
-            <a href="{{ url_for('reservas') }}">Ver Reservas</a>
-            <a href="{{ url_for('reserva_nuevo') }}">Añadir Reserva</a>
-            <a href="{{ url_for('buscar_reserva') }}">Buscar Reserva</a>
-        </div>
     </div>
-
-    <div class="dropdown">
-        <a class="dropbtn">Mesas ▾</a>
-        <div class="dropdown-content">
-            <a href="{{ url_for('mesas') }}">Lista Mesas</a>
-            <a href="{{ url_for('mesa_nueva') }}">Nueva Mesa</a>
-        </div>
-    </div>
-
-    <div class="dropdown">
-    <a class="dropbtn">Horarios ▾</a>
-        <div class="dropdown-content">
-            <a href="{{ url_for('horarios') }}">Lista Horarios</a>
-            <a href="{{ url_for('horario_nuevo') }}">Nuevo Horario</a>
-        </div>
-    </div>
-
-    <a href="{{ url_for('admin') }}">Panel Admin</a>
-
-</nav>
-    
-</nav>
-
+    </nav>
+ {% endif %}
 <hr>
 
-<main>
+<main class="container mt-4">
     {% block content %}
     {% endblock %}
 </main>
 
 <hr>
-<main>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
+<!-- MENSAJES -->
+<div class="container">
 
-{% for category, message in messages %}
 
-<div class="card">
-{{ message }}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </div>
 
-{% endfor %}
-
-{% endif %}
-{% endwith %}
-
-
-
-</main>
-
-<footer>
-    <p>© 2026 Sistema de Reservas | Todos los derechos reservados. </p>
+<script>
+    (() => {
+    'use strict'
+    const forms = document.querySelectorAll('form')
+        Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+    }
+    form.classList.add('was-validated')
+    }, false)
+    })
+    })()
+</script>
+<footer class="text-center mt-4">
+    <p>© 2026 Sistema de Reservas | Todos los derechos reservados.</p>
 </footer>
 
 </body>
+
 </html>
