@@ -191,9 +191,6 @@ form input[type="submit"]:hover {
     text-decoration: none;
 }
 
-.dropdown-content a:hover {
-    background-color: #d7f5fd;
-}
 
 .dropdown-content {
     transition: 0.3s ease;
@@ -202,6 +199,25 @@ form input[type="submit"]:hover {
 /* Mostrar al pasar el mouse */
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.dropdown-menu {
+    background-color: #1f3c88;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    color: white;
+    width: 100%;
+    padding: 12px 20px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #0ecbff; /* 🔥 ocupa todo el ancho */
+    color: white;
 }
 
 /* TABLA INVENTARIO */
