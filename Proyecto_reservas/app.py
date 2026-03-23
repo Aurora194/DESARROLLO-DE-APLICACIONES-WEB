@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from form_cliente import ClienteForm
 from form_reserva import ReservaForm
 from datetime import datetime
-from reservas.bd import init_db
+from reservas.bd import init_db, get_db_connection
 from reservas.gestor_clientes import GestorClientes
 from reservas.gestor_reservas import GestorReservas
 from reservas.gestor_mesas import GestorMesas
@@ -30,8 +30,7 @@ app.config['SECRET_KEY'] = 'mi_clave_secreta'
 #db = SQLAlchemy (app)
 
 # Inicializar base de datos
-init_db()
-
+#init_db()
 
 #Inicializa Flask-Login
 login_manager = LoginManager()

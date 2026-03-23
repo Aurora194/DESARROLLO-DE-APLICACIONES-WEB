@@ -1,7 +1,7 @@
 # clase gestor de reservas
 
 from .reservas import Reserva
-from .bd import init_db, get_db_connection
+#from .bd import init_db, get_db_connection
 from conexion.conexion import obtener_conexion
 
 class GestorReservas:
