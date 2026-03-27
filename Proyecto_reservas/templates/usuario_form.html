@@ -3,40 +3,42 @@
 
 {% block content %}
 
+<div class="container mt-5">
+<div class="card shadow p-4">
 
-<h2 class="mb-4">Registrar Nuevo Usuario</h2>
+<h2 class="mb-4 text-center">Registrar Nuevo Usuario</h2>
 
 <form method="POST">
+    {{ form.hidden_tag() }}
 
-<div class="mb-3">
-<label>Nombre</label><br>
-<input type="text" name="nombre" class="form-control" required>
-</div>
+    <div class="mb-3">
+        {{ form.nombre.label(class="form-label") }}
+        {{ form.nombre(class="form-control") }}
+    </div>
 
-<div class="mb-3">
-<label>Email</label><br>
-<input type="email" name="email" class="form-control" required>
-</div>
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
 
-<div class="mb-3">
-<label>Password</label><br>
-<input type="password" name="password" class="form-control" required>
-</div>
+    <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+    </div>
 
-<div class="text-center mt-4">
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button type="submit" class="btn btn-success px-4">
+            💾 Crear Usuario
+        </button>
 
-<button type="submit" class="btn btn-success btn-lg px-4">
-💾 Crear Usuario
-</button>
-
-<a href="{{ url_for('usuarios') }}" class="btn btn-outline-secondary btn-lg px-4">
-↩ Cancelar
-</a>
-
-</div>
+        <a href="{{ url_for('usuarios') }}" class="btn btn-outline-secondary px-4">
+            ↩ Cancelar
+        </a>
+    </div>
 
 </form>
 
+</div>
 </div>
 
 {% endblock %}

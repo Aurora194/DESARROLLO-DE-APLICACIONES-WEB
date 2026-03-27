@@ -2,65 +2,50 @@
 {% block title %}Nueva Reserva{% endblock %}
 
 {% block content %}
-<h2>Registrar Nueva Reserva</h2>
+<h2 class="mb-4">Registrar Nueva Reserva</h2>
 
 <form method="POST">
     {{ form.hidden_tag() }}
 
-    <!-- Fecha Reserva -->
-    <div>
-        {{ form.fecha_reserva.label }}<br>
-        {{ form.fecha_reserva() }}<br>
-        {% for error in form.fecha_reserva.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
+    <!-- FILA 1: Fecha + Personas -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ form.fecha_reserva.label(class="form-label") }}
+            {{ form.fecha_reserva(class="form-control") }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form.personas.label(class="form-label") }}
+            {{ form.personas(class="form-select") }}
+        </div>
     </div>
 
-    <!-- Personas -->
-    <div>
-        {{ form.personas.label }}<br>
-        {{ form.personas() }}<br>
-        {% for error in form.personas.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
+    <!-- FILA 2: Cliente -->
+    <div class="mb-3">
+        {{ form.id_cliente.label(class="form-label") }}
+        {{ form.id_cliente(class="form-select") }}
     </div>
 
-    <!-- Observacion -->
-    <div>
-        {{ form.observacion.label }}<br>
-        {{ form.observacion(size=32) }}<br>
-        {% for error in form.observacion.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
+    <!-- FILA 3: Mesa -->
+    <div class="mb-3">
+        {{ form.id_mesa.label(class="form-label") }}
+        {{ form.id_mesa(class="form-select") }}
     </div>
 
-    <!-- ID CLIENTE -->
-    <div>
-        {{ form.id_cliente.label }}<br>
-        {{ form.id_cliente() }}<br>
-        {% for error in form.id_cliente.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
+    <!-- FILA 4: Horario -->
+    <div class="mb-3">
+        {{ form.id_horario.label(class="form-label") }}
+        {{ form.id_horario(class="form-select") }}
     </div>
 
-    <!-- ID MESA  -->
-    <div>
-        {{ form.id_mesa.label }}<br>
-        {{ form.id_mesa () }}<br>
-        {% for error in form.id_mesa.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
+    <!-- FILA 5: Observación (más grande) -->
+    <div class="mb-3">
+        {{ form.observacion.label(class="form-label") }}
+        <textarea name="observacion" class="form-control" rows="4"></textarea>
     </div>
 
-    
-    <!-- ID HORARIO  -->
-    <div>
-        {{ form.id_horario.label }}<br>
-        {{ form.id_horario () }}<br>
-        {% for error in form.id_horario.errors %}
-            <span style="color: red;">[{{ error }}]</span><br>
-        {% endfor %}
-    </div>
+    <!-- BOTONES -->
+
     <button type="submit" class="btn btn-success btn-lg px-4">
     💾 Guardar Reserva
     </button>

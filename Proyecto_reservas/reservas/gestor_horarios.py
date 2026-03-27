@@ -6,7 +6,7 @@ from conexion.conexion import obtener_conexion
 
 class GestorHorarios:
 
-    # CRUD SQLite
+    # CRUD 
     def agregar_horario(self, horario):
 
         conexion = obtener_conexion()
@@ -29,7 +29,7 @@ class GestorHorarios:
         conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
 
-        cursor.execute("SELECT * FROM horarios")
+        cursor.execute("SELECT * FROM horarios WHERE estado='ACTIVO'")
 
         horarios = cursor.fetchall()
         conexion.close()
@@ -77,7 +77,7 @@ class GestorHorarios:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "DELETE FROM horarios WHERE id_horario=%s",
+            "UPDATE horarios SET estado='ELIMINADO' WHERE id_horario=%s",
             (id,)
         )
 

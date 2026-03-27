@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
 
 <header>
@@ -47,7 +48,6 @@
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ url_for('clientes_listar') }}">Lista</a></li>
             <li><a class="dropdown-item" href="{{ url_for('cliente_nuevo') }}">Nuevo</a></li>
-            <li><a class="dropdown-item" href="{{ url_for('buscar_cliente') }}">Buscar</a></li>
         </ul>
     </li>
 
@@ -57,7 +57,6 @@
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ url_for('reservas') }}">Ver</a></li>
             <li><a class="dropdown-item" href="{{ url_for('reserva_nuevo') }}">Nueva</a></li>
-            <li><a class="dropdown-item" href="{{ url_for('buscar_reserva') }}">Buscar</a></li>
         </ul>
     </li>
 
@@ -115,7 +114,121 @@
 <footer class="text-center mt-4">
     <p>© 2026 Sistema de Reservas | Todos los derechos reservados.</p>
 </footer>
+<script>
+        function activarTabla(tablaId, inputId, botonId, paginacionId, contadorId, tipoBusqueda="general") {
 
+            let input = document.getElementById(inputId);
+            let boton = document.getElementById(botonId);
+            let tabla = document.getElementById(tablaId);
+            let filas = Array.from(tabla.getElementsByTagName("tr")).slice(1);
+
+            let paginacion = document.getElementById(paginacionId);
+            let contador = document.getElementById(contadorId);
+
+            let filasFiltradas = [...filas];
+            let paginaActual = 1;
+            let filasPorPagina = 5;
+
+            function filtrar() {
+                let texto = input.value.toLowerCase().trim();
+
+                if (texto === "") {
+                    filasFiltradas = [...filas];
+                } else {
+                    filasFiltradas = filas.filter(fila => {
+                        let columnas = fila.getElementsByTagName("td");
+
+                        // 🔵 CLIENTES (nombre + apellido)
+                        if (tipoBusqueda === "cliente") {
+                            let nombre = columnas[1].innerText.toLowerCase().trim();
+                            let apellido = columnas[2].innerText.toLowerCase().trim();
+
+                            let completo = nombre + " " + apellido;
+                            let invertido = apellido + " " + nombre;
+
+                            return nombre.includes(texto) ||
+                                apellido.includes(texto) ||
+                                completo.includes(texto) ||
+                                invertido.includes(texto);
+                        }
+
+                        // 🟢 RESERVAS (fecha)
+                        if (tipoBusqueda === "reserva") {
+                            let fecha = columnas[1].innerText.toLowerCase();
+                            return fecha.includes(texto);
+                        }
+
+                        // 🟡 BUSCAR POR ID (mesas, horarios)
+                        if (tipoBusqueda === "id") {
+                            let id = columnas[0].innerText.toLowerCase();
+                            return id.includes(texto);
+                        }
+
+                        // ⚪ GENERAL (fallback)
+                        return fila.innerText.toLowerCase().includes(texto);
+                    });
+                }
+
+                paginaActual = 1;
+                mostrarPagina();
+            }
+
+            input.addEventListener("keyup", () => {
+                if (input.value === "") filtrar();
+            });
+
+            boton.addEventListener("click", filtrar);
+
+            function mostrarPagina() {
+                let inicio = (paginaActual - 1) * filasPorPagina;
+                let fin = inicio + filasPorPagina;
+
+                filas.forEach(f => f.style.display = "none");
+
+                filasFiltradas.slice(inicio, fin).forEach(f => {
+                    f.style.display = "";
+                });
+
+                mostrarPaginacion();
+                contador.innerText = "Total: " + filasFiltradas.length + " registros";
+            }
+
+            function mostrarPaginacion() {
+                let totalPaginas = Math.ceil(filasFiltradas.length / filasPorPagina);
+                paginacion.innerHTML = "";
+
+                if (totalPaginas <= 1) return;
+
+                let btnPrev = document.createElement("button");
+                btnPrev.innerText = "Anterior";
+                btnPrev.disabled = paginaActual === 1;
+                btnPrev.onclick = () => { paginaActual--; mostrarPagina(); };
+                paginacion.appendChild(btnPrev);
+
+                for (let i = 1; i <= totalPaginas; i++) {
+                    let btn = document.createElement("button");
+                    btn.innerText = i;
+
+                    if (i === paginaActual) btn.classList.add("active");
+
+                    btn.onclick = () => {
+                        paginaActual = i;
+                        mostrarPagina();
+                    };
+
+                    paginacion.appendChild(btn);
+                }
+
+                let btnNext = document.createElement("button");
+                btnNext.innerText = "Siguiente";
+                btnNext.disabled = paginaActual === totalPaginas;
+                btnNext.onclick = () => { paginaActual++; mostrarPagina(); };
+                paginacion.appendChild(btnNext);
+            }
+
+            mostrarPagina();
+        }
+</script>
 </body>
 
 </html>

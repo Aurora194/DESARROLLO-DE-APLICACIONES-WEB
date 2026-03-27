@@ -1,2 +1,6 @@
 {'nombre': 'Cecilia', 'apellido': 'Roldan', 'email': 'cecilia@gmail.com', 'celular': '0989949500'}
 {'nombre': 'Cecilia', 'apellido': 'Roldan', 'email': 'cecilia@gmail.com', 'celular': '0989949500'}
+{'nombre': 'Camila', 'apellido': 'Cabeza', 'email': 'camila@gmail.com', 'celular': '0987444444'}
+{'nombre': 'Juan', 'apellido': 'Gomez', 'email': 'juan@gmail.com', 'celular': '0987555555'}
+{'nombre': 'Alberto', 'apellido': 'Gomez', 'email': 'alberto@gmail.com', 'celular': '0987666666'}
+{'nombre': 'Alberto', 'apellido': 'Gomez', 'email': 'alberto12@gmail.com', 'celular': '0987666412'}

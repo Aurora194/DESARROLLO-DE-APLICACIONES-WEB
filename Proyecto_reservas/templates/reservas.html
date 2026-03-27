@@ -6,11 +6,42 @@
 
 <h2>Reservas</h2>
 
-<a href="{{ url_for('reserva_nuevo') }}" class="btn btn-primary mb-3">
-➕ Agregar Nueva Reserva
-</a>
+<div class="top-bar">
 
-<table class="table table-striped table-bordered">
+    <a href="{{ url_for('reserva_nuevo') }}" class="btn btn-primary">
+        ➕ Agregar Nueva Reserva
+    </a>
+
+    <div class="text-center my-3">
+
+    <a href="{{ url_for('pdf_reservas') }}" class="btn btn-danger me-2">
+    📄 PDF 
+    </a>
+
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalReservas">
+    📊 Por Fecha
+    </button>
+
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="buscarReserva"
+            class="form-control search-unificado"
+            list="listaReservas"
+            placeholder="🔍 Buscar reserva...">
+
+        <button id="btnBuscarReserva" class="btn btn-success">
+            Buscar
+        </button>
+    </div>
+</div> 
+    <datalist id="listaReservas">
+    {% for r in reservas %}
+    <option value="{{ r.fecha_reserva }}">
+    {% endfor %}
+    </datalist>
+
+<table id="tablaReservas" class="table table-striped table-bordered">
 
 <thead>
 <tr>
@@ -62,5 +93,36 @@
 </tbody>
 
 </table>
+<div id="paginacionReservas" class="pagination"></div>
+<p id="contadorReservas"></p>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    activarTabla("tablaReservas", "buscarReserva", "btnBuscarReserva", "paginacionReservas","contadorReservas","reserva");
+});
+</script>
+<div class="modal fade" id="modalReservas">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <form method="POST" action="{{ url_for('pdf_reservas_rango') }}">
+
+        <div class="modal-body">
+            <input type="date" name="inicio" class="form-control mb-2" required>
+            <input type="date" name="fin" class="form-control" required>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn btn-success">
+              📄 Descargar
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancelar
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

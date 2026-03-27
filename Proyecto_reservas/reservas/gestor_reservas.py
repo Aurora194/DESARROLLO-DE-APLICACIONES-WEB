@@ -7,7 +7,7 @@ from conexion.conexion import obtener_conexion
 class GestorReservas:
         
 
-    # CRUD SQLite
+    # CRUD 
 
     def agregar_reserva(self, reserva):
 
@@ -47,17 +47,18 @@ class GestorReservas:
                 r.fecha_reserva,
                 r.cantidad_personas,
                 r.observacion,
-                c.nombre AS cliente,
+                CONCAT(c.nombre, ' ', c.apellido) AS cliente,
                 m.nombre AS mesa,
                 h.descripcion AS horario
             FROM reservas r
             JOIN clientes c ON r.id_cliente = c.id_cliente
             JOIN mesas m ON r.id_mesa = m.id_mesa
             JOIN horarios h ON r.id_horario = h.id_horario
+            WHERE r.estado='ACTIVO'
             ORDER BY r.fecha_reserva
         """)
 
-        reservas = cursor.fetchall()   # 👈 FALTABA ESTO
+        reservas = cursor.fetchall()   
 
         cursor.close()
         conexion.close()
@@ -114,7 +115,7 @@ class GestorReservas:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "DELETE FROM reservas WHERE id_reserva=%s",
+            "UPDATE reservas SET estado='ELIMINADO' WHERE id_reserva=%s",
             (id,)
         )
 
@@ -122,30 +123,3 @@ class GestorReservas:
         conexion.close()
 
 
-    # buscar reserva
-    def buscar_reserva(self, cliente):
-
-        conexion = obtener_conexion()
-        cursor = conexion.cursor(dictionary=True)
-
-        cursor.execute("""
-            SELECT r.id_reserva,
-                r.fecha_reserva,
-                r.cantidad_personas,
-                r.observacion,
-                c.nombre AS cliente,
-                m.nombre AS mesa,
-                h.descripcion AS horario
-            FROM reservas r
-            JOIN clientes c ON r.id_cliente = c.id_cliente
-            JOIN mesas m ON r.id_mesa = m.id_mesa
-            JOIN horarios h ON r.id_horario = h.id_horario
-            WHERE c.nombre LIKE %s
-        """, ('%' + cliente + '%',))
-
-        reservas = cursor.fetchall()
-
-        cursor.close()
-        conexion.close()
-
-        return reservas

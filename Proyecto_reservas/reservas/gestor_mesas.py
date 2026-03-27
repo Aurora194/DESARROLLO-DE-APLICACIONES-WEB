@@ -6,7 +6,7 @@ from conexion.conexion import obtener_conexion
 
 class GestorMesas:
 
-    # CRUD SQLite
+    # CRUD 
     def agregar_mesa(self, mesa):
 
         conexion = obtener_conexion()
@@ -30,7 +30,7 @@ class GestorMesas:
         conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
 
-        cursor.execute("SELECT * FROM mesas")
+        cursor.execute("SELECT * FROM mesas WHERE estado='ACTIVO'")
         mesas = cursor.fetchall()
         conexion.close()
 
@@ -77,7 +77,7 @@ class GestorMesas:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "DELETE FROM mesas WHERE id_mesa=%s",
+            "UPDATE mesas SET estado='ELIMINADO' WHERE id_mesa=%s",
             (id,)
         )
 

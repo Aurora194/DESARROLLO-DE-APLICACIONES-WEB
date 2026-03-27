@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-5">
-<div class="card p-4 shadow">
+<div class="card p-4 shadow col-md-6 mx-auto">
 
     <h2 class="text-center mb-4">Registro</h2>
 
@@ -23,8 +23,15 @@
             <input type="password" name="password" class="form-control" required>
         </div>
 
-        <div class="d-grid">
+        <div class="d-grid mb-3">
             <button class="btn btn-success">Registrarse</button>
+        </div>
+
+        <div class="text-center">
+            <p>¿Ya tienes cuenta?</p>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+                🔑 Iniciar Sesión
+            </a>
         </div>
 
     </form>

@@ -1,6 +1,6 @@
 # clase gestor de clientes 
 
-from .horarios import Horario
+from .clientes import Cliente
 #from .bd import init_db, get_db_connection
 from conexion.conexion import obtener_conexion
 
@@ -8,9 +8,9 @@ from conexion.conexion import obtener_conexion
 class GestorClientes:
 
 
-    # CRUD SQLite
+    # CRUD 
 
-    def agregar_cliente(cliente):
+    def agregar_cliente(self, cliente):
 
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -37,7 +37,7 @@ class GestorClientes:
 
         conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM clientes")
+        cursor.execute("SELECT * FROM clientes WHERE estado='ACTIVO'")
         clientes = cursor.fetchall()
         conexion.close()
         return clientes
@@ -56,21 +56,6 @@ class GestorClientes:
         conexion.close()
         return cliente
         
-    # buscar cliente
-    def buscar_cliente(self, texto):
-
-        conexion = obtener_conexion()
-        cursor = conexion.cursor(dictionary=True)
-
-        sql = "SELECT * FROM clientes WHERE nombre LIKE %s"
-        cursor.execute(sql, ("%" + texto + "%",))
-
-        resultados = cursor.fetchall()
-
-        cursor.close()
-        conexion.close()
-
-        return resultados
 
     # actualizar el cliente en la base de datos
     def actualizar_cliente(self, id, cliente):
@@ -102,7 +87,7 @@ class GestorClientes:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "DELETE FROM clientes WHERE id_cliente=%s",
+            "UPDATE clientes SET estado='ELIMINADO' WHERE id_cliente=%s",
             (id,)
         )
 

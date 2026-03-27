@@ -17,6 +17,54 @@ from reservas.gestor_persistencia import (
 )
 from conexion.conexion import obtener_conexion
 from werkzeug.security import generate_password_hash, check_password_hash
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image, Spacer
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from io import BytesIO
+from flask import send_file
+
+
+# FUNCIÓN PARA GENERAR PDF
+def generar_pdf(titulo, encabezados, datos):
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+    elementos = []
+
+    estilos = getSampleStyleSheet()
+
+    # LOGO 
+    try:
+        logo = Image("static/img/logo.png", width=2*inch, height=2*inch)
+        logo.hAlign = 'CENTER'   # centrar logo
+        elementos.append(logo)
+    except:
+        pass
+    elementos.append(Spacer(1, 10))
+
+    elementos.append(Paragraph(" Restaurante Leña Steak House", estilos["Title"]))
+    elementos.append(Spacer(1, 10))
+
+    elementos.append(Paragraph(titulo, estilos["Heading2"]))
+    elementos.append(Spacer(1, 20))
+
+    tabla_data = [encabezados] + datos
+
+    tabla = Table(tabla_data)
+    tabla.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.grey),
+        ('TEXTCOLOR',(0,0),(-1,0),colors.white),
+        ('GRID', (0,0), (-1,-1), 1, colors.black)
+    ]))
+    gestor_horarios = GestorHorarios()
+
+    elementos.append(tabla)
+
+    doc.build(elementos)
+    buffer.seek(0)
+
+    return buffer
 
 
 # CONFIGURACIÓN DE LA APLICACIÓN
@@ -198,31 +246,54 @@ def eliminar_cliente(id):
     return redirect(url_for("clientes_listar"))
 
 
-# Buscar cliente
-@app.route("/clientes/buscar", methods=["GET", "POST"])
+# Ruta PDF Clientes
+@app.route("/clientes/pdf")
 @login_required
-def buscar_cliente():
+def pdf_clientes():
 
-    resultados = []
-    mensaje = None
+    clientes = gestor_clientes.listar_clientes()
+
+    datos = [
+        [c["id_cliente"], c["nombre"], c["apellido"], c["email"], c["celular"]]
+        for c in clientes
+    ]
+
+    pdf = generar_pdf(
+        "Listado de Clientes",
+        ["ID","Nombre","Apellido","Email","Celular"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Clientes.pdf", as_attachment=True)
+
+# Ruta por rango ID
+@app.route("/clientes/pdf_rango", methods=["GET", "POST"])
+@login_required
+def pdf_clientes_rango():
 
     if request.method == "POST":
+        inicio = int(request.form.get("inicio"))
+        fin = int(request.form.get("fin"))
+    else:
+        return redirect(url_for("clientes_listar"))  # evita error
 
-        texto = request.form.get("texto")
+    clientes = gestor_clientes.listar_clientes()
 
-        if not texto or texto.strip() == "":
-            mensaje = "⚠️ Debe ingresar un nombre para buscar"
-        else:
-            resultados = gestor_clientes.buscar_cliente(texto)
+    filtrados = [c for c in clientes if inicio <= c["id_cliente"] <= fin]
 
-            if not resultados:
-                mensaje = "❌ No se encontraron clientes"
+    datos = [
+        [c["id_cliente"], c["nombre"], c["apellido"], c["email"], c["celular"]]
+        for c in filtrados
+    ]
 
-    return render_template(
-        "buscar_cliente.html",
-        resultados=resultados,
-        mensaje=mensaje
+    pdf = generar_pdf(
+        f"Clientes ID {inicio} - {fin}",
+        ["ID","Nombre","Apellido","Email","Celular"],
+        datos
     )
+
+    return send_file(pdf, download_name="Clientes_Rango.pdf", as_attachment=True)
+
 
 # CRUD RESERVAS
 
@@ -248,7 +319,7 @@ def reserva_nuevo():
 
     # llenar listas dinámicas
     form.id_cliente.choices = [(0,"Seleccione")] + [
-        (c["id_cliente"], c["nombre"])
+        (c["id_cliente"], f'{c["nombre"]} {c["apellido"]}')
         for c in gestor_clientes.listar_clientes()
     ]
 
@@ -281,31 +352,6 @@ def reserva_nuevo():
 
     return render_template("reserva_form.html", form=form)
 
-# Buscar reserva
-@app.route("/reservas/buscar", methods=["GET", "POST"])
-@login_required
-def buscar_reserva():
-
-    resultados = []
-    mensaje = None
-
-    if request.method == "POST":
-
-        texto = request.form.get("texto")
-
-        if not texto or texto.strip() == "":
-            mensaje = "⚠️ Debe ingresar un nombre para buscar"
-        else:
-            resultados = gestor_reservas.buscar_reserva(texto)
-
-            if not resultados:
-                mensaje = "❌ No se encontraron reservas"
-
-    return render_template(
-        "buscar_reserva.html",
-        resultados=resultados,
-        mensaje=mensaje
-    )
 
 # Editar reserva
 @app.route("/reservas/editar/<int:id>", methods=["GET","POST"])
@@ -354,6 +400,54 @@ def eliminar_reserva(id):
         return redirect(url_for("reservas"))
 
 
+# Ruta PDF Reservas
+@app.route("/reservas/pdf")
+@login_required
+def pdf_reservas():
+
+    reservas = gestor_reservas.listar_reservas()
+
+    datos = [
+        [r["id_reserva"], r["fecha_reserva"], r["cantidad_personas"], r["observacion"]]
+        for r in reservas
+    ]
+
+    pdf = generar_pdf(
+        "Listado de Reservas",
+        ["ID","Fecha","Personas","Observación"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Reservas.pdf", as_attachment=True)
+
+
+# Ruta por rango de fechas
+@app.route("/reservas/pdf_rango", methods=["GET","POST"])
+@login_required
+def pdf_reservas_rango():
+
+    inicio = request.form.get("inicio")
+    fin = request.form.get("fin")
+
+    reservas = gestor_reservas.listar_reservas()
+
+    filtrados = [
+        r for r in reservas
+        if inicio <= r["fecha_reserva"] <= fin
+    ]
+
+    datos = [
+        [r["id_reserva"], r["fecha_reserva"], r["cantidad_personas"], r["observacion"]]
+        for r in filtrados
+    ]
+
+    pdf = generar_pdf(
+        f"Reservas {inicio} a {fin}",
+        ["ID","Fecha","Personas","Observación"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Reservas_Rango.pdf", as_attachment=True)
 
 # MESAS
 
@@ -420,6 +514,54 @@ def eliminar_mesa(id):
     flash("Mesa eliminada","warning")
     return redirect(url_for("mesas"))
 
+# Ruta Pdf Mesas
+@app.route("/mesas/pdf")
+@login_required
+def pdf_mesas():
+
+    mesas = gestor_mesas.listar_mesas()
+
+    datos = [
+        [m["id_mesa"], m["nombre"], m["descripcion"], m["ubicacion"]]
+        for m in mesas
+    ]
+
+    pdf = generar_pdf(
+        "Listado de Mesas",
+        ["ID", "Nombre", "Descripción", "Ubicación"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Mesas.pdf", as_attachment=True)
+
+# Ruta por rango de ID
+@app.route("/mesas/pdf_rango", methods=["GET","POST"])
+@login_required
+def pdf_mesas_rango():
+
+    inicio = int(request.form.get("inicio"))
+    fin = int(request.form.get("fin"))
+
+    mesas = gestor_mesas.listar_mesas()
+
+    filtradas = [
+        m for m in mesas
+        if inicio <= m["id_mesa"] <= fin
+    ]
+
+    datos = [
+        [m["id_mesa"], m["nombre"], m["descripcion"], m["ubicacion"]]
+        for m in filtradas
+    ]
+
+    pdf = generar_pdf(
+        f"Mesas del ID {inicio} al {fin}",
+        ["ID", "Nombre", "Descripción", "Ubicación"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Mesas_Rango.pdf", as_attachment=True)
+
 
 # HORARIOS
 
@@ -481,6 +623,54 @@ def eliminar_horario(id):
     flash("Horario eliminado","warning")
     return redirect(url_for("horarios"))
 
+# Ruta PDF horarios
+@app.route("/horarios/pdf")
+@login_required
+def pdf_horarios():
+
+    horarios = gestor_horarios.listar_horarios()
+
+    datos = [
+        [h["id_horario"], h["hora_inicio"], h["hora_fin"], h["descripcion"]]
+        for h in horarios
+    ]
+
+    pdf = generar_pdf(
+        "Listado de Horarios",
+        ["ID", "Inicio", "Fin", "Descripción"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Horarios.pdf", as_attachment=True)
+
+# Ruta por rango ID
+@app.route("/horarios/pdf_rango", methods=["GET","POST"])
+@login_required
+def pdf_horarios_rango():
+
+    inicio = int(request.form.get("inicio"))
+    fin = int(request.form.get("fin"))
+
+    horarios = gestor_horarios.listar_horarios()
+
+    filtrados = [
+        h for h in horarios
+        if inicio <= h["id_horario"] <= fin
+    ]
+
+    datos = [
+        [h["id_horario"], h["hora_inicio"], h["hora_fin"], h["descripcion"]]
+        for h in filtrados
+    ]
+
+    pdf = generar_pdf(
+        f"Horarios del ID {inicio} al {fin}",
+        ["ID", "Inicio", "Fin", "Descripción"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Horarios_Rango.pdf", as_attachment=True)
+
 # Ruta usuarios
 @app.route("/usuarios/nuevo", methods=["GET","POST"])
 @login_required
@@ -537,7 +727,7 @@ def usuarios():
 
     cursor = conexion.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM usuarios")
+    cursor.execute("SELECT * FROM usuarios WHERE estado='ACTIVO'")
     usuarios = cursor.fetchall()
 
     cursor.close()
@@ -603,7 +793,7 @@ def eliminar_usuario(id):
 
     cursor = conexion.cursor(dictionary=True)
 
-    cursor.execute("DELETE FROM usuarios WHERE id_usuario=%s",(id,))
+    cursor.execute("UPDATE usuarios SET estado='ELIMINADO' WHERE id_usuario=%s",(id,))
     conexion.commit()
 
     cursor.close()

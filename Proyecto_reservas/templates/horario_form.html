@@ -3,40 +3,41 @@
 
 {% block content %}
 
-<h2 class="mb-4">Registrar Nuevo Horario</h2>
+<div class="container mt-5">
+<div class="card shadow p-4">
 
+<h2 class="mb-4 text-center">Registrar Nuevo Horario</h2>
 
 <form method="POST">
 
-<div class="mb-3">
-<label class="form-label">Hora inicio</label>
-<input type="time" name="hora_inicio" class="form-control" required>
-</div>
+    <div class="mb-3">
+        <label class="form-label">Hora inicio</label>
+        <input type="time" name="hora_inicio" class="form-control" required>
+    </div>
 
-<div class="mb-3">
-<label class="form-label">Hora fin</label><br>
-<input type="time" name="hora_fin" class="form-control" required>
-</div>
+    <div class="mb-3">
+        <label class="form-label">Hora fin</label>
+        <input type="time" name="hora_fin" class="form-control" required>
+    </div>
 
-<div class="mb-3">
-<label class="form-label">Descripción</label>
-<input type="text" name="descripcion" class="form-control" placeholder="Ej: Almuerzo" required>
-</div>
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <input type="text" name="descripcion" class="form-control" placeholder="Ej: Almuerzo" required>
+    </div>
 
-<div class="text-center mt-4">
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button type="submit" class="btn btn-success px-4">
+            💾 Guardar Horario
+        </button>
 
-<button type="submit" class="btn btn-success btn-lg px-4">
-💾 Guardar Horario
-</button>
-
-<a href="{{ url_for('horarios') }}" class="btn btn-outline-secondary btn-lg px-4">
-↩ Cancelar
-</a>
-
-</div>
+        <a href="{{ url_for('horarios') }}" class="btn btn-outline-secondary px-4">
+            ↩ Cancelar
+        </a>
+    </div>
 
 </form>
 
+</div>
 </div>
 
 {% endblock %}

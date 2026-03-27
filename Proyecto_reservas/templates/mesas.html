@@ -4,11 +4,42 @@
 
 <h2>Mesas</h2>
 
-<a href="{{ url_for('mesa_nueva') }}" class="btn btn-primary mb-3">
-➕ Agregar Nueva Mesa
-</a>
+<div class="top-bar">
 
-<table class="table table-striped table-bordered">
+    <a href="{{ url_for('mesa_nueva') }}" class="btn btn-primary">
+        ➕ Agregar Nueva Mesa
+    </a>
+
+    <div class="text-center my-3">
+
+    <a href="{{ url_for('pdf_mesas') }}" class="btn btn-danger me-2">
+    📄 PDF 
+    </a>
+
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalRangoMesas">
+    📊 Por Rango
+    </button>
+
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="buscarMesa"
+            class="form-control search-unificado"
+            list="listaMesas"
+            placeholder="🔍 Buscar mesa...">
+
+        <button id="btnBuscarMesa" class="btn btn-success">
+            Buscar
+        </button>
+    </div>
+</div>
+    <datalist id="listaMesas">
+    {% for m in mesas %}
+    <option value="{{ m.id_mesa }}">
+    {% endfor %}
+    </datalist>
+
+<table id="tablaMesas" class="table table-striped table-bordered">
 
 <thead>
 <tr>
@@ -55,5 +86,42 @@
 </tbody>
 
 </table>
+<div id="paginacionMesas" class="pagination"></div>
+<p id="contadorMesas"></p>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    activarTabla("tablaMesas", "buscarMesa", "btnBuscarMesa", "paginacionMesas","contadorMesas","id");
+});
+</script>
+<!-- MODAL RANGO MESAS -->
+<div class="modal fade" id="modalRangoMesas" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <form method="POST" action="{{ url_for('pdf_mesas_rango') }}">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Descargar Mesas por rango</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="number" name="inicio" class="form-control mb-2" placeholder="ID inicio" required>
+          <input type="number" name="fin" class="form-control" placeholder="ID fin" required>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn btn-success">
+              📄 Descargar 
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancelar
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
 {% endblock %}
