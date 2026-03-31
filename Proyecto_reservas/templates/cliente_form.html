@@ -9,8 +9,8 @@
 
     <!-- Nombre -->
     <div>
-        {{ form.nombre.label }}<br>
-        {{ form.nombre(size=32) }}<br>
+        {{ form.nombre.label(class="form-label") }}<br>
+        {{ form.nombre(class="form-control") }}<br>
         {% for error in form.nombre.errors %}
             <span style="color: red;">[{{ error }}]</span><br>
         {% endfor %}
@@ -19,8 +19,8 @@
     
     <!-- Apellido -->
     <div>
-        {{ form.apellido.label }}<br>
-        {{ form.apellido(size=32) }}<br>
+        {{ form.apellido.label(class="form-label") }}<br>
+        {{ form.apellido(class="form-control") }}<br>
         {% for error in form.apellido.errors %}
             <span style="color: red;">[{{ error }}]</span><br>
         {% endfor %}
@@ -28,8 +28,8 @@
 
     <!-- Email -->
     <div>
-        {{ form.email.label }}<br>
-        {{ form.email(size=32) }}<br>
+        {{ form.email.label(class="form-label") }}<br>
+        {{ form.email(class="form-control") }}<br>
         {% for error in form.email.errors %}
             <span style="color: red;">[{{ error }}]</span><br>
         {% endfor %}
@@ -37,8 +37,14 @@
 
     <!-- Celular -->
     <div>
-        {{ form.celular.label }}<br>
-        {{ form.celular(size=32) }}<br>
+        {{ form.celular.label(class="form-label") }}<br>
+        {{ form.celular(
+            class="form-control",
+            pattern="[0-9]{10}",
+            maxlength="10",
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        ) }}<br>
+
         {% for error in form.celular.errors %}
             <span style="color: red;">[{{ error }}]</span><br>
         {% endfor %}
