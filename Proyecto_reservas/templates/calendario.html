@@ -1,21 +1,43 @@
 
 <!-- Muestra calendario de reservas -->
-
-
 {% extends "base.html" %}
 
 {% block content %}
 
 <h2>Calendario de Reservas</h2>
+<div style="display: flex; justify-content:flex-end; gap: 10px; align-items: center;">
+    
+    <input type="text" id="buscarCalendario"
+        class="form-control search-unificado"
+        style="width: 300px;"
+        list="listaCalendario"
+        placeholder="🔍 Buscar por fecha o cliente">
 
-<table border="1">
+    <button id="btnBuscarCalendario" class="btn btn-success">
+        Buscar
+    </button>
 
+</div>
+
+    <datalist id="listaCalendario">
+    {% for r in reservas %}
+    <option value="{{ r.fecha_reserva }}">
+    <option value="{{ r.cliente }}">
+    {% endfor %}
+    </datalist>
+    
+<table id="tablaCalendario" class="table table-striped table-bordered">
+
+<thead>
 <tr>
 <th>Fecha</th>
 <th>Cliente</th>
 <th>Mesa</th>
 <th>Personas</th>
 </tr>
+</thead>
+
+<tbody>
 
 {% for r in reservas %}
 
@@ -26,8 +48,30 @@
 <td>{{ r.cantidad_personas }}</td>
 </tr>
 
+{% else %}
+<tr>
+<td colspan="4">No hay reservas registradas</td>
+</tr>
 {% endfor %}
 
+</tbody>
+
 </table>
+
+<div id="paginacionCalendario" class="pagination"></div>
+<p id="contadorCalendario"></p>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    activarTabla(
+        "tablaCalendario",
+        "buscarCalendario",
+        "btnBuscarCalendario",
+        "paginacionCalendario",
+        "contadorCalendario",
+        "general"
+    );
+});
+</script>
 
 {% endblock %}

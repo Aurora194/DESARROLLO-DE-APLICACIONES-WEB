@@ -73,6 +73,7 @@ def guardar_csv(dic: dict):
             dic["email"],
             dic["celular"]
         ])
+        
 # leer datos csv
 def leer_csv():
     asegurar_data_dir()
@@ -80,5 +81,5 @@ def leer_csv():
         return []
     with open (CSV_FILE, 'r', encoding="utf-8") as f:
         reader = csv.reader(f)
-        next (reader, None) # Saltar encabezados
+        next (reader, None) 
         return [row for row in reader if row]

@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
     activarTabla("tablaClientes", "buscarCliente", "btnBuscarCliente", "paginacionClientes","contadorClientes","cliente");
 });
 </script>
+
 <div class="modal fade" id="modalClientes">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -108,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <form method="POST" action="{{ url_for('pdf_clientes_rango') }}">
 
         <div class="modal-header">
-          <h5 class="modal-title">Rango de Clientes</h5>
+          <h5 class="modal-title">Clientes por rango de ID</h5>
         </div>
 
         <div class="modal-body">

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from form_cliente import ClienteForm
 from form_reserva import ReservaForm
+from form_usuario import UsuarioForm
 from datetime import datetime
 from reservas.bd import init_db, get_db_connection
 from reservas.gestor_clientes import GestorClientes
@@ -26,7 +27,7 @@ from io import BytesIO
 from flask import send_file
 
 
-# FUNCIÓN PARA GENERAR PDF
+# Función para generar PDF
 def generar_pdf(titulo, encabezados, datos):
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
@@ -34,20 +35,21 @@ def generar_pdf(titulo, encabezados, datos):
 
     estilos = getSampleStyleSheet()
 
-    # LOGO 
+    # LOGO
     try:
         logo = Image("static/img/logo.png", width=2*inch, height=2*inch)
-        logo.hAlign = 'CENTER'   # centrar logo
+        logo.hAlign = 'CENTER'
         elementos.append(logo)
     except:
         pass
+
     elementos.append(Spacer(1, 10))
 
-    elementos.append(Paragraph(" Restaurante Leña Steak House", estilos["Title"]))
+    elementos.append(Paragraph("Restaurante Leña Steak House", estilos["Title"]))
     elementos.append(Spacer(1, 10))
 
     elementos.append(Paragraph(titulo, estilos["Heading2"]))
-    elementos.append(Spacer(1, 20))
+    elementos.append(Spacer(1, 10))
 
     tabla_data = [encabezados] + datos
 
@@ -57,9 +59,15 @@ def generar_pdf(titulo, encabezados, datos):
         ('TEXTCOLOR',(0,0),(-1,0),colors.white),
         ('GRID', (0,0), (-1,-1), 1, colors.black)
     ]))
-    gestor_horarios = GestorHorarios()
 
     elementos.append(tabla)
+
+    # Espacio después de la tabla
+    elementos.append(Spacer(1, 20))
+
+    # Fecha y hora de descarga
+    fecha_actual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    elementos.append(Paragraph(f"Fecha de descarga: {fecha_actual}", estilos["Normal"]))
 
     doc.build(elementos)
     buffer.seek(0)
@@ -67,7 +75,6 @@ def generar_pdf(titulo, encabezados, datos):
     return buffer
 
 
-# CONFIGURACIÓN DE LA APLICACIÓN
 
 app = Flask(__name__)
 
@@ -95,26 +102,29 @@ gestor_mesas = GestorMesas()
 gestor_horarios = GestorHorarios()
 
 
-# PÁGINAS PRINCIPALES
 
 # Página de inicio
 @app.route('/index')
+@login_required
 def inicio():
     return render_template("index.html")
 
 
 # Página sobre el restaurante
 @app.route('/about')
+@login_required
 def about():
     return render_template("about.html")
 
 # Pagina contacto
 @app.route("/contacto")
+@login_required
 def contacto():
     return render_template("contacto.html")
 
 # Página calendario reservas
 @app.route("/calendario")
+@login_required
 def calendario():
     reservas = gestor_reservas.listar_reservas()
 
@@ -143,6 +153,7 @@ def admin():
 
 # Página menú
 @app.route("/menu")
+@login_required
 def menu():
     return render_template("menu.html")
 
@@ -676,39 +687,32 @@ def pdf_horarios_rango():
 @login_required
 def usuario_nuevo():
 
-    if request.method == "POST":
+    form = UsuarioForm()   
 
-        nombre = request.form.get("nombre")
-        email = request.form.get("email")
-        password = request.form.get("password")
+    if form.validate_on_submit():
+
+        nombre = form.nombre.data
+        email = form.email.data
+        password = form.password.data
 
         conexion = obtener_conexion()
-
-        if not conexion:
-            flash("Error de conexión a MySQL", "danger")
-            return redirect(url_for("login"))
-
         cursor = conexion.cursor(dictionary=True)
-
-        sql = """
-        INSERT INTO usuarios (nombre, email, password)
-        VALUES (%s, %s, %s)
-        """
 
         password_hash = generate_password_hash(password)
 
-        cursor.execute(sql,(nombre,email,password_hash))
+        cursor.execute("""
+        INSERT INTO usuarios (nombre, email, password)
+        VALUES (%s, %s, %s)
+        """, (nombre, email, password_hash))
 
         conexion.commit()
-
         cursor.close()
         conexion.close()
 
         flash("Usuario creado","success")
-
         return redirect(url_for("usuarios"))
 
-    return render_template("usuario_form.html")
+    return render_template("usuario_form.html", form=form)
 
 # Consultar ususarios
 @app.route("/usuarios")
@@ -719,7 +723,7 @@ def usuarios():
         flash("Acceso no autorizado", "danger")
         return redirect(url_for("inicio"))
 
-    conexion = obtener_conexion()   # 👈 FALTABA
+    conexion = obtener_conexion()   
 
     if not conexion:
         flash("Error de conexión", "danger")
@@ -803,6 +807,79 @@ def eliminar_usuario(id):
 
     return redirect(url_for("usuarios"))
 
+
+# Ruta PDF usuarios
+@app.route("/usuarios/pdf")
+@login_required
+def pdf_usuarios():
+
+    if current_user.rol != "admin":
+        flash("Acceso no autorizado", "danger")
+        return redirect(url_for("inicio"))
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute("SELECT id_usuario, nombre, email FROM usuarios WHERE estado='ACTIVO'")
+    usuarios = cursor.fetchall()
+
+    cursor.close()
+    conexion.close()
+
+    datos = [
+        [u["id_usuario"], u["nombre"], u["email"]]
+        for u in usuarios
+    ]
+
+    pdf = generar_pdf(
+        "Listado de Usuarios",
+        ["ID", "Nombre", "Email"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Usuarios.pdf", as_attachment=True)
+
+
+# Ruta por rango ID
+@app.route("/usuarios/pdf_rango", methods=["POST"])
+@login_required
+def pdf_usuarios_rango():
+
+    if current_user.rol != "admin":
+        flash("Acceso no autorizado", "danger")
+        return redirect(url_for("inicio"))
+
+    inicio = int(request.form.get("inicio"))
+    fin = int(request.form.get("fin"))
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT id_usuario, nombre, email 
+        FROM usuarios 
+        WHERE id_usuario BETWEEN %s AND %s
+        AND estado='ACTIVO'
+    """, (inicio, fin))
+
+    usuarios = cursor.fetchall()
+
+    cursor.close()
+    conexion.close()
+
+    datos = [
+        [u["id_usuario"], u["nombre"], u["email"]]
+        for u in usuarios
+    ]
+
+    pdf = generar_pdf(
+        f"Usuarios del ID {inicio} al {fin}",
+        ["ID", "Nombre", "Email"],
+        datos
+    )
+
+    return send_file(pdf, download_name="Usuarios_Rango.pdf", as_attachment=True)
+
 # Cargar usuario desde MYSQL
 @login_manager.user_loader
 def load_user(user_id):
@@ -810,7 +887,7 @@ def load_user(user_id):
     conexion = obtener_conexion()
 
     if not conexion:
-        return None   # ✅ SOLO ESTO
+        return None   
 
     cursor = conexion.cursor(dictionary=True)
 
@@ -853,7 +930,7 @@ def registro():
             flash("Complete todos los campos", "warning")
             return redirect(url_for("login"))
         
-        # 🔍 Verificar si el correo ya existe
+        # Verificar si el correo ya existe
         cursor.execute("SELECT * FROM usuarios WHERE email=%s", (email,))
         existe = cursor.fetchone()
 
@@ -911,7 +988,7 @@ def login():
         cursor.close()
         conexion.close()
 
-        # ✅ TODO dentro del POST
+        
         if user and check_password_hash(user["password"], password):
 
             usuario = Usuario(
@@ -987,7 +1064,7 @@ def datos():
     )
 
 
-# EJECUTAR APLICACIÓN
+
 if __name__ == '__main__':
     app.config['PROPAGATE_EXCEPTIONS'] = True
     app.run(debug=True)

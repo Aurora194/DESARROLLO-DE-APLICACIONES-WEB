@@ -29,7 +29,7 @@
     <div class="collapse navbar-collapse" id="menu">
 
     <ul class="navbar-nav me-auto">
-
+    
     <li class="nav-item">
     <a class="nav-link" href="{{ url_for('inicio') }}">Inicio</a>
     </li>
@@ -59,7 +59,12 @@
             <li><a class="dropdown-item" href="{{ url_for('reserva_nuevo') }}">Nueva</a></li>
         </ul>
     </li>
-
+    <!-- SOLO ADMIN -->
+    {% if current_user.rol == "admin" %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('usuarios') }}">Usuarios</a>
+    </li>
+    {% endif %}
     </ul>
 
     <ul class="navbar-nav">
@@ -138,7 +143,7 @@
                     filasFiltradas = filas.filter(fila => {
                         let columnas = fila.getElementsByTagName("td");
 
-                        // 🔵 CLIENTES (nombre + apellido)
+                        //  CLIENTES (nombre + apellido)
                         if (tipoBusqueda === "cliente") {
                             let nombre = columnas[1].innerText.toLowerCase().trim();
                             let apellido = columnas[2].innerText.toLowerCase().trim();
@@ -152,19 +157,19 @@
                                 invertido.includes(texto);
                         }
 
-                        // 🟢 RESERVAS (fecha)
+                        //  RESERVAS (fecha)
                         if (tipoBusqueda === "reserva") {
                             let fecha = columnas[1].innerText.toLowerCase();
                             return fecha.includes(texto);
                         }
 
-                        // 🟡 BUSCAR POR ID (mesas, horarios)
+                        //  BUSCAR POR ID (mesas, horarios)
                         if (tipoBusqueda === "id") {
                             let id = columnas[0].innerText.toLowerCase();
                             return id.includes(texto);
                         }
 
-                        // ⚪ GENERAL (fallback)
+                        //  GENERAL 
                         return fila.innerText.toLowerCase().includes(texto);
                     });
                 }

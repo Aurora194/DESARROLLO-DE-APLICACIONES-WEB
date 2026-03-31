@@ -78,7 +78,7 @@ main {
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s ease;
-    margin: 20px 0;   /* espacio arriba y abajo */
+    margin: 20px 0;   
 }
 
 .btn:hover {
@@ -94,7 +94,7 @@ footer {
     padding: 15px;
     margin-top: 40px;
     font-size: 14px;
-    width: 100%;   /* corregido */
+    width: 100%;   
 }
 
 
@@ -107,14 +107,14 @@ form {
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     max-width: 500px;
     margin: 40px auto;
-    text-align: center; /* centra contenido */
+    text-align: center; 
 }
 
 form p {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* centra campos */
+    align-items: center;
 }
 
 /* LABEL */
@@ -126,12 +126,12 @@ form label {
 
 /* INPUTS CENTRADOS */
 form input {
-    width: 80%;               /* ancho controlado */
+    width: 80%;               
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 14px;
-    text-align: center;       /* texto centrado */
+    text-align: center;      
     transition: 0.3s ease;
 }
 
@@ -151,7 +151,7 @@ form input[type="submit"] {
     cursor: pointer;
     font-weight: bold;
     width: 50%;
-    margin-top: 15px;   /* espacio extra */
+    margin-top: 15px;   
     transition: 0.3s ease;
 }
 
@@ -215,7 +215,7 @@ form input[type="submit"]:hover {
 }
 
 .dropdown-item:hover {
-    background-color: #0ecbff; /* 🔥 ocupa todo el ancho */
+    background-color: #0ecbff; 
     color: white;
 }
 
@@ -224,7 +224,7 @@ form input[type="submit"]:hover {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 30px;
+    margin-top: 30px auto;
     background: white;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
@@ -241,6 +241,7 @@ table, th, td {
 th, td {
     padding: 12px;
     text-align: center;
+    vertical-align: middle;
 }
 
 tr:nth-child(even) {
@@ -282,7 +283,7 @@ ul li {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    align-items: stretch; /* 🔥 clave */
+    align-items: stretch; 
 }
 
 /* TARJETA BASE */
@@ -290,8 +291,8 @@ ul li {
     display: flex;
     flex-direction: column;
 
-    height: 100%; /* 🔥 ocupa toda la altura del grid */
-    min-height: 350px; /* 🔥 altura base uniforme */
+    height: 100%; 
+    min-height: 350px; 
 
     padding: 20px;
     border-radius: 15px;
@@ -318,7 +319,7 @@ ul li {
 .menu-card ul {
     list-style: none;
     padding: 0;
-    flex-grow: 1; /* 🔥 clave para igualar alturas */
+    flex-grow: 1; 
 }
 
 /* ITEMS */
@@ -339,12 +340,12 @@ ul li {
 .menu-card span {
     font-weight: bold;
     color: #e63946;
-    min-width: 50px;      /* 🔥 todos los precios alineados */
-    text-align: right;    /* 🔥 alineación elegante */
-    margin-left: 15px;    /* 🔥 separación clara */
+    min-width: 50px;      
+    text-align: right;    
+    margin-left: 15px;    
 }
 
-/* EFECTO EXTRA (detalle elegante) */
+/* EFECTO EXTRA */
 .menu-card::after {
     content: "";
     height: 4px;
@@ -358,7 +359,7 @@ ul li {
 table td:last-child,
 table th:last-child {
     width: 180px;
-    white-space: nowrap; /* evita que los botones bajen */
+    white-space: nowrap; 
 }
 
 /* Carrusel ancho completo */
@@ -455,7 +456,7 @@ table td {
 /* BUSCADOR PEQUEÑO */
 
 .search-unificado {
-    width: 250px !important;
+    width: 250px;
     height: 42px;
     border-radius: 20px;
     text-align: center;
@@ -493,3 +494,9 @@ table td {
     font-weight: bold;
 }
 
+
+/* QUITAR ESPACIO EXAGERADO SOLO EN TABLAS */
+.acciones .btn {
+    font-size: 13px;
+    border-radius: 6px;
+}

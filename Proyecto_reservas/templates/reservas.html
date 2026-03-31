@@ -106,6 +106,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       <form method="POST" action="{{ url_for('pdf_reservas_rango') }}">
 
+        <div class="modal-header">
+          <h5 class="modal-title">Reservas por rango de fecha</h5>
+        </div>
+
         <div class="modal-body">
             <input type="date" name="inicio" class="form-control mb-2" required>
             <input type="date" name="fin" class="form-control" required>
